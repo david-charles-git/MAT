@@ -1,0 +1,23 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.UnitInput {
+    > .inner {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        grid-gap: 20px;
+        align-content: center;
+        justify-content: start;
+        align-items: center;
+        
+        .inputContainer {
+            > p {
+                border: 1px solid #000;
+                border-radius: 5px;
+                padding: 20px;
+            }
+        }
+    }
+}

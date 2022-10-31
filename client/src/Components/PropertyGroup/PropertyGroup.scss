@@ -1,0 +1,37 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.PropertyGroup {
+    > .inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        > .head {
+            padding: 20px;
+            border-bottom: 3px solid #000;
+        }
+
+        > .body {
+            .group {    
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 20px;
+                align-content: center;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                border: 3px solid #000;
+            }
+        }
+        
+        > .Button {
+            text-align: right;
+        }
+    }
+}

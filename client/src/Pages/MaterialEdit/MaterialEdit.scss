@@ -1,0 +1,54 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+
+.MaterialEdit {
+    > .inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 40px;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        .infoContainer{
+            > .inner {
+                padding: 40px;
+                background-color: #fff;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 20px;
+                align-content: center;
+                justify-content: start;
+                align-items: center;
+            }
+        }
+
+        .difficultyContainer {
+            display: grid;
+            grid-template-rows: 30px;
+            grid-template-columns: repeat(5, 30px);
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: #fff;
+            align-content: center;
+            justify-content: start;
+            align-items: center;
+
+            .difficultyButton {
+                height: 100%;
+                border-radius: 50%;
+                background-color: #000;
+                opacity: 0.3;
+                cursor : pointer;
+                transition: opacity 200ms ease;
+
+                &.active {
+                    opacity : 1;
+                }
+            }
+        }
+    }
+}

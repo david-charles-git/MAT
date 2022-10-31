@@ -1,0 +1,19 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.Button {
+    > .inner {
+        display: inline-block;
+        width: auto;
+        
+        p, a {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: cadetblue;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+}

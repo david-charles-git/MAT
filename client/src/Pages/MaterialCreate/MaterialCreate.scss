@@ -1,0 +1,82 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.MaterialCreate {
+    > .inner {
+        display: grid;
+        grid-gap: 40px;
+        align-content: center;
+        align-items: center;
+
+        .infoContainer {
+            > .inner {
+                padding: 40px;
+                background-color: #fff;
+                display: grid;
+                grid-gap: 20px;
+                align-content: center;
+                justify-content: start;
+                align-items: center;
+            }
+        }
+
+        form {
+            display: grid;
+            grid-gap: 40px;
+
+            .materialName {
+                > .inner {
+                    padding: 20px;
+                    background-color: #fff;
+                    display: grid;
+                    grid-gap: 20px;
+
+                    input[type="text"] {
+                        padding: 10px 20px;
+                    }
+                }
+            }
+
+            .materialRef {
+                > .inner {
+                    padding: 20px;
+                    background-color: #fff;
+                    display: grid;
+                    grid-gap: 20px;
+
+                }
+            }
+            .materialCreationOptions {
+                > .inner {
+                    padding: 20px;
+                    background-color: #fff;
+                    display: grid;
+                    grid-gap: 20px;
+
+                    > .optionsContainer {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        grid-gap: 20px;
+
+                        .option {
+                            border-radius: 5px;
+                            overflow: hidden;
+                            text-align: center;
+                            cursor: pointer;
+
+                            p {
+                                padding: 10px 20px;
+                                background-color: #609690;
+                                color: #fff;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

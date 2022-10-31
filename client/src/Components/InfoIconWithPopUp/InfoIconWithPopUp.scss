@@ -1,0 +1,72 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.infoIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    right: 20px;
+    background-color: lightgrey;
+    border-radius: 50%;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 0px #1b1b1b;
+
+    p {
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.infoPopUp {
+    position: fixed;
+    display: none;
+    width: auto;
+    max-width: 500px;
+    z-index: 2;
+
+    > .inner {
+        padding: 10px;
+        background-color: lightgrey;
+        border-radius: 5px;
+
+        p {
+            font-size: 15px;
+            line-height: 20px;
+
+            a {
+                font-size: 15px;
+                line-height: 20px;
+                text-align: right;
+                font-weight: bold;
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            border-style: solid;
+            border-color: lightgrey transparent;
+            display: block;
+            width: 0;
+            top: -10px;
+            bottom: auto;
+            left: auto;
+            right: 10px;
+            border-width: 0 10px 10px;
+        }
+    }
+
+    &.active {
+        display: inline-block;
+
+    }
+}

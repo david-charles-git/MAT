@@ -1,0 +1,80 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.NumberInput {
+    > .inner {
+        display: grid;
+        grid-template-columns: 175px 1fr 150px 150px;
+        grid-gap: 10px;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        
+        .isRangeContainer {
+            display: grid;
+            grid-template-columns: 1fr 20px;
+            grid-gap: 5px;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .singleValueContainer {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rangeContainer {
+            display: grid;
+            grid-template-columns: 1fr 10px 1fr;
+            grid-gap: 5px;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                text-align: center;
+            }
+        }
+
+        .standardFormContainer {
+            display: grid;
+            grid-template-columns: 20px 1fr;
+            grid-gap: 5px;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                text-align: center;
+            }
+        }
+
+        .deviationContainer {
+            display: grid;
+            grid-template-columns: 20px 1fr;
+            grid-gap: 5px;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                text-align: center;
+            }
+        }
+
+        input[type="number"] {
+            padding: 20px;
+            font-size: 20px;
+            line-height: 30px;
+            letter-spacing: 0.5px;
+            border-radius: 5px;
+            border: 1px solid #000;
+        }
+    }
+}

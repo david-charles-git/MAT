@@ -1,0 +1,79 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.MaterialPortal {
+    > .inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 40px;
+
+        .introContainer {
+            > .inner {
+                padding: 40px;
+                background-color: #fff;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 20px;
+
+                h4 {}
+
+                p {}
+                
+            }
+        }
+
+        .MaterialContribuitionsContainer {
+            > .inner {
+                padding: 40px;
+                background-color: #fff;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 20px;
+
+                .item {
+                    height: 100%;
+                    min-height: 200px;
+                    border: 3px solid #000;
+                    background-color: #f0f0f0;
+                    
+                    a {
+                        height: 100%;
+                        padding: 10px;
+                        display: grid;
+                        grid-gap: 10px;
+                        align-content: start;
+                        justify-content: start;
+                        align-items: start;
+
+                        p {
+                            span {
+                                font-size: 10px;
+                                line-height: inherit;
+                                display: inline-block;
+                                vertical-align: middle;
+                                width: auto;
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+
+                    &.published {
+                        background-color: #609690;
+                    }
+                }
+            }
+        }
+
+        .MaterialCreationCotnainer {
+            > .inner {
+                padding: 40px;
+                background-color: #fff;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 20px;
+            }
+        }
+    }
+}

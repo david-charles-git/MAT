@@ -1,0 +1,63 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.Accordian {
+    > .inner {
+        border-radius: 5px;
+        border: 1px solid #1b1b1b;
+
+        .head {
+            > .inner {
+                cursor: pointer;
+                display: grid;
+                grid-template-columns: 1fr 30px;
+                grid-gap: 20px;
+                align-content: center;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+
+                .openCloseButton {
+                    > .inner {
+                        width: 30px;
+                        height: 30px;
+                        background-image: url(../../Images/chevronDown.png);
+                        background-size: contain;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        transition: transform 200ms ease;
+                        transform: rotate(0deg);
+                    }
+                }
+            }
+        }
+
+        .body {
+            transition: height 200ms ease;
+
+            > .inner {
+                padding: 20px;
+                border-top: 1px solid #1b1b1b;
+            }
+        }
+    }
+
+    &.active {
+        > .inner {
+            .head {
+                > .inner {
+                    cursor: pointer;
+
+                    .openCloseButton {
+                        > .inner {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

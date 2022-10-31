@@ -1,0 +1,45 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
+.Carousel {
+    > .inner {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+
+        .carouselButton {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            
+            > .inner {
+                height: 50px;
+                background-color: #000;
+            }
+        }
+
+        > .outer {
+            overflow: hidden;
+
+            > .inner {
+                min-width: 100%;
+                display: grid;
+                grid-gap: 20px;
+                transition: transform 200ms ease;
+                align-content: center;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    &.active {
+        > .inner {            
+            grid-template-columns: 50px 1fr 50px;
+        }
+    }
+}
