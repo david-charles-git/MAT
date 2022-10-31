@@ -16,20 +16,16 @@ export default function PropertiesArea(props) {
     const updatePropertyGroup = props.componentData.updatePropertyGroup; //any
 
     //states
-    var [properties, setProperties] = useState({});
+    var [areaProperties, setAreaProperties] = useState(propertyGroup);
 
     //functions
     const handlePropertyChange = (updatedProperties) => {
-        
         if (updatedProperties.length > 0) {
-            const newProperties = {
-                name : propertyGroup.name,
-                value : propertyGroup.value,
-                description : propertyGroup.description,
-                properties : updatedProperties
-            };
+            const newProperties = areaProperties;
+            
+            newProperties.properties = updatedProperties;
 
-            setProperties(newProperties);
+            setAreaProperties(newProperties);
             updatePropertyGroup(newProperties);
         }
     };
@@ -39,23 +35,24 @@ export default function PropertiesArea(props) {
 
     //effects
         useEffect(() => {
-            setProperties(propertyGroup);
-        }, [propertyGroup]);
+            setAreaProperties(propertyGroup);
+        });
 
-    if (properties.value) {
+    if (areaProperties.value) {
         return (
             <div className={ componentClass }>
                 <div className="inner">
-                    <h4>{ properties.name }</h4>
-                    <p>{ properties.description }</p>
+                    <h4>{ areaProperties.name }</h4>
+                    <p>{ areaProperties.description }</p>
 
                     <div className='properties'>
                         <div className='inner'>
                             {
-                                properties.properties.length > 0 ?
-                                    properties.properties.map((property, key) => {
+                                areaProperties.properties.length > 0 ?
+                                    areaProperties.properties.map((property, key) => {
                                         return <PropertyInput key={ key } componentData={ {
-                                            propertyGroup : properties.properties,
+                                            index : key,
+                                            propertyGroup : areaProperties.properties,
                                             property : property,
                                             handlePropertyChange : handlePropertyChange
                                         } } />

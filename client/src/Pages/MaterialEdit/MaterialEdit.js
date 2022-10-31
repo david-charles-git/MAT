@@ -323,7 +323,6 @@ export default function MaterialEdit(props) {
 	};
 
 	const handlePhysicalPropertiesChange = (physicalProperties) => {
-		console.log("edit page");
 		if (physicalProperties.value) {
 			setMaterialPhysicalProperties(physicalProperties);
 		}

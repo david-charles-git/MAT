@@ -16,7 +16,7 @@ export default function ValueInput(props) {
     const valueIndex = props.componentData.index; //number
     const valueType = props.componentData.type; //sting
     const valueOptions = props.componentData.options; //Array<obj> 
-    const valuePropertyGroup = props.componentData.propertyGroup; //Array<obj>
+    const valueItems = props.componentData.items; //Array<obj>
     const valueItem = props.componentData.item; //obj
     const updateValue = props.componentData.updateValue;
 
@@ -27,12 +27,12 @@ export default function ValueInput(props) {
 
     };
     const handleUpdateTextValue = (newItem) => {
-        if (newItem.value && valuePropertyGroup[valueIndex]) {
-            var newGroup = valuePropertyGroup;
+        if (newItem.value && valueItems[valueIndex]) {
+            var newitems = valueItems;
 
-            newGroup[valueIndex] = newItem;
+            newitems[valueIndex] = newItem;
             setItem(newItem);
-            updateValue(newGroup);
+            updateValue(newitems);
         }
 
     };

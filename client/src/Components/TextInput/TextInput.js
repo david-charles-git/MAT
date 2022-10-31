@@ -29,8 +29,6 @@ export default function TextInput(props) {
             const newItem = item;
 
             newItem.value = elmtValue;
-            newItem.name = elmtValue;
-
             setTextInputValue(elmtValue);
             updateTextValues(newItem);
 
