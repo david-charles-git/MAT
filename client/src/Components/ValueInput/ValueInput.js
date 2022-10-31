@@ -4,50 +4,65 @@
 */
 
 //imports
+import { useState } from "react";
 import NumberInput from "../NumberInput/NumberInput";
-import SelectDropDown from "../SelectDropDown/SelectDropDown";
+import OptionInput from "../OptionInput/OptionInput";
 import TextInput from "../TextInput/TextInput";
 import './ValueInput.scss';
 
 //exports
 export default function ValueInput(props) {
     //properties
-    const dataType = props.componentData.dataType; //sting
-    const values = props.componentData.values; //Array<obj> 
-    const currentIsRange = props.componentData.currentIsRange; //bool
-    const currentValue = props.componentData.currentValue; //obj
-    const currentMinValue = props.componentData.currentMinValue; //number
-    const currentMaxValue = props.componentData.currentMaxValue; //number
-    const currentDeviation = props.componentData.currentDeviation; //number
-    const currentStandardFormIndex = props.componentData.currentStandardFormIndex; //number
+    const valueIndex = props.componentData.index; //number
+    const valueType = props.componentData.type; //sting
+    const valueOptions = props.componentData.options; //Array<obj> 
+    const valuePropertyGroup = props.componentData.propertyGroup; //Array<obj>
+    const valueItem = props.componentData.item; //obj
+    const updateValue = props.componentData.updateValue;
+
+    var [item, setItem] = useState(valueItem);
 
     //functions
+    const handleUpdateSelectedOption = () => {
+
+    };
+    const handleUpdateTextValue = (newItem) => {
+        if (newItem.value && valuePropertyGroup[valueIndex]) {
+            var newGroup = valuePropertyGroup;
+
+            newGroup[valueIndex] = newItem;
+            setItem(newItem);
+            updateValue(newGroup);
+        }
+
+    };
+    const handleUpdateNumberValue = () => {
+
+    };
     const generateValueInput = () => {
-        if (dataType === "select") {
-            return <SelectDropDown componentData={ { dropDownOptions : values, selectedOption : currentValue } } />
-
-        } else if (dataType === "text") {
-            return <TextInput componentData={ {  currentValue : currentValue } } />
-
-        } else if (dataType === "number") {
+        if (valueType === "select") {
             return (
-                <NumberInput componentData={
-                    {
-                        currentIsRange : currentIsRange,
-                        currentValue : currentValue,
-                        currentMinValue : currentMinValue,
-                        currentMaxValue : currentMaxValue,
-                        currentDeviation : currentDeviation,
-                        currentStandardFormIndex : currentStandardFormIndex
-                    }
-                } />
+                <OptionInput componentData={ {
+                    optionIndex : 1,
+                    item : item,
+                    options : valueOptions,
+                    updateSelectedOption : handleUpdateSelectedOption
+                } } />
+            )
+
+        } else if (valueType === "text") {
+            return <TextInput componentData={ {  item : item, updateTextValues : handleUpdateTextValue } } />
+
+        } else if (valueType === "number") {
+            return (
+                <NumberInput componentData={ {  item : item, updateNumberValues : handleUpdateNumberValue } } />
             )
         }
     };
 
     //variables
     const componentClass = "ValueInput"; //string
-
+    
     return (
         <div className={ componentClass }>
             <div className="inner">

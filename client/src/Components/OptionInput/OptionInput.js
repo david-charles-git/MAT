@@ -11,15 +11,15 @@ import './OptionInput.scss';
 export default function OptionInput(props) {
     //properties
     const optionIndex = props.componentData.optionIndex; //number
-    const initialOption = props.componentData.initialOption; //obj
+    const item = props.componentData.item; //obj
     const options = props.componentData.options; //Array<obj>
     const updateSelectedOption = props.componentData.updateSelectedOption; //any
 
     //states
-    var [selectedOptionName, setSelectedOptionName] = useState(initialOption.name);
-    var [selectedOptionRef, setSelectedOptionRef] = useState(initialOption.ref);
-    var [selectedOptionDescription, setSelectedOptionDescription] = useState(initialOption.description);
-    var [selectedOptionLink, setSelectedOptionLink] = useState(initialOption.link);
+    var [selectedOptionName, setSelectedOptionName] = useState(item.name);
+    var [selectedOptionRef, setSelectedOptionRef] = useState(item.ref);
+    var [selectedOptionDescription, setSelectedOptionDescription] = useState(item.description);
+    var [selectedOptionLink, setSelectedOptionLink] = useState(item.link);
     var [optionInputIsOpen, setOptionInputIsOpen] = useState(false);
     var [optionBodyHeight, setOptionBodyHeight] = useState(0); //number
 

@@ -66,12 +66,167 @@ const methodSchema = new Schema({ //any
     },
 });
 
-//Properties Schema
-const propertiesSchema = new Schema({ //any
+//Property File Type Schema
+// const propertyFileTypeSchema = new Schema({ //any
+//     name : {
+//         type : String,
+//         trim : true,
+//         unique : true,
+//         required : true
+//     },
+//     value : {
+//         type : String,
+//         trim : true,
+//         unique : true,
+//         required : true
+//     },
+// });
+
+//Property File Schema
+// const propertyFileSchema = new Schema({ //any
+//     name : {
+//         type : String,
+//         trim : true,
+//         required : true,
+//         unique : true
+//     },
+//     source : {
+//         type : String,
+//         trim : true,
+//         required : true,
+//         unique : true
+//     }
+// });
+
+//Property Data Groups Schema
+// const propertyDataGroupsSchema = new Schema({ //any
+
+// });
+
+//Property Value Schema 
+const propertyValueSchema = new Schema({ //any
+    name : {
+        type  : String,
+        trim : true
+    },
+    value : {
+        type : Schema.Types.Mixed
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    link : {
+        type : String
+    },
+});
+
+//Property Unit Schema 
+const propertyUnitSchema = new Schema({ //any
+    name : {
+        type  : String,
+        trim : true
+    },
+    value : {
+        type : Schema.Types.Mixed
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    link : {
+        type : String
+    },
+});
+
+//Property Scale Schema 
+const propertyScaleSchema = new Schema({ //any
+    name : {
+        type  : String,
+        trim : true
+    },
+    value : {
+        type : Schema.Types.Mixed
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    link : {
+        type : String
+    },
+});
+
+//Property Item Schema
+const propertyItemSchema = new Schema({ //any
+    isRange : {
+        type : Boolean
+    },
+    minValue : {
+        type : Number
+    },
+    maxValue : {
+        type : Number
+    },
+    deviation : {
+        type : Number
+    },
+    standardFormIndex : {
+        type : Number
+    },
+    value : {
+        type : Schema.Types.Mixed
+    },
+    unit : {
+        type : Schema.Types.Mixed
+    },
+    scale : {
+        type : Schema.Types.Mixed
+    },
+});
+
+//Property Schema
+const propertySchema = new Schema({ //any
     name : {
         type : String,
         trim : true,
     },
+    value : {
+        type : String,
+        trim : true,
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    type : {
+        type : String,
+        trim : true
+    },
+    allowMultipleItems : {
+        type : Boolean
+    },
+    options : [propertyValueSchema],
+    units : [propertyUnitSchema],
+    scales : [propertyScaleSchema],
+    items : [propertyItemSchema]
+});
+
+//Property Groups Schema
+const physicalPropertiesSchema = new Schema({ //any
+    name : {
+        type : String,
+        trim : true,
+    },
+    value : {
+        type : String,
+        trim : true,
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    properties : [propertySchema]
 });
 
 //Gallery Schema
@@ -117,10 +272,10 @@ const materialSchema = new Schema( //any
 
         coverImage : coverImageSchema,
         details : detailsSchema,
-        ingredients : ingredientsSchema,
-        method : methodSchema,
-        properties : propertiesSchema,
-        gallery : gallerySchema
+        // ingredients : ingredientsSchema,
+        // method : methodSchema,
+        physicalProperties : physicalPropertiesSchema,
+        // gallery : gallerySchema
     },
     {
         timestamps : true

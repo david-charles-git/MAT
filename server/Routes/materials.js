@@ -25,6 +25,8 @@ router.route("/add").post((req, res) => {
     const tools = req.body.details.tools; //Array<obj>
     const processes = req.body.details.processes; //Array<obj>
 
+    const physicalProperties = req.body.physicalProperties; //Array<obj>
+
     const newMaterial = new Material( //any
         { 
             name : name,
@@ -45,7 +47,8 @@ router.route("/add").post((req, res) => {
                 prepTime : prepTime,
                 tools : tools,
                 processes : processes
-            }
+            },
+            physicalProperties : physicalProperties
         }
     );
 
@@ -114,6 +117,8 @@ router.route("/update/:ref").post((req, res) => {
     const tools = req.body.details.tools; //Array<obj>
     const processes = req.body.details.processes; //Array<obj>
 
+    const physicalProperties = req.body.physicalProperties; //Array<obj>
+
     const query = { ref : req.params.ref }; //obj
     const newMaterial = { //any
         name : name,
@@ -134,7 +139,8 @@ router.route("/update/:ref").post((req, res) => {
             prepTime : prepTime,
             tools : tools,
             processes : processes
-        }
+        },
+        physicalProperties : physicalProperties
     };
 
     Material.findOneAndUpdate(query, newMaterial, (error, data) => {});

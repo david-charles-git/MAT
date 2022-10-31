@@ -11,6 +11,7 @@ import Grid from "../../Components/Grid/Grid";
 import Carousel from "../../Components/Carousel/Carousel";
 import Button from "../../Components/Button/Button";
 import OptionInput from "../../Components/OptionInput/OptionInput";
+import PropertiesArea from "../../Areas/PropertiesArea/PropertiesArea";
 
 //exports
 export default function MaterialEdit(props) {
@@ -45,6 +46,8 @@ export default function MaterialEdit(props) {
 	var [materialTools, setMaterialTools] = useState([]); //Array<obj>
 	var [materialProcesses, setMaterialProcesses] = useState([]) //Array<obj>
 
+	var [materialPhysicalProperties, setMaterialPhysicalProperties] = useState({}); //obj
+
 	//ref
 	const coverImageRef = useRef(); //any
 	const descriptionRef = useRef(); //any
@@ -74,7 +77,8 @@ export default function MaterialEdit(props) {
 				prepTime : materialPrepTime,
 				tools : materialTools,
 				processes : materialProcesses
-			}
+			},
+			physicalProperties : materialPhysicalProperties
 		};
 
 		axios.post(postTo, data)
@@ -103,7 +107,8 @@ export default function MaterialEdit(props) {
 				prepTime : materialPrepTime,
 				tools : materialTools,
 				processes : materialProcesses
-			}
+			},			
+			physicalProperties : materialPhysicalProperties
 		};
 
 		axios.post(postTo, data)
@@ -130,6 +135,7 @@ export default function MaterialEdit(props) {
             //validation error handler here
         }
 	};
+
 	const handleDescriptionOnChange = () => {
 		const newDescription = descriptionRef.current.value;
 
@@ -260,6 +266,24 @@ export default function MaterialEdit(props) {
 			}
 		}
 	};
+	const handleAddTool = () => {
+		var toolsArray = [...materialTools]; //Arra<obj>
+		var tool = {
+			name : "",
+			ref : "",
+			description : "",
+			link : ""
+		};
+
+		if (toolsArray[toolsArray.length - 1].ref) {
+			toolsArray.push(tool);
+
+			setMaterialTools(toolsArray);
+
+		} else {
+			//will not add Tool
+		}
+	};
 	const handleProcessOnChange = (dataObj) => {
 		if (dataObj) {
 			const dataIndex = dataObj.index;
@@ -279,6 +303,32 @@ export default function MaterialEdit(props) {
 			}
 		}
 	};
+	const handleAddProcess = () => {
+		var processesArray = [...materialProcesses]; //Arra<obj>
+		var process = {
+			name : "",
+			ref : "",
+			description : "",
+			link : ""
+		};
+
+		if (processesArray[processesArray.length - 1].ref) {
+			processesArray.push(process);
+
+			setMaterialProcesses(processesArray);
+
+		} else {
+			//will not add Process
+		}
+	};
+
+	const handlePhysicalPropertiesChange = (physicalProperties) => {
+		console.log("edit page");
+		if (physicalProperties.value) {
+			setMaterialPhysicalProperties(physicalProperties);
+		}
+	};
+	
 
 	//variables
     const MaterialRef = searchParams.get("materialRef");
@@ -311,6 +361,8 @@ export default function MaterialEdit(props) {
 						setMaterialPrepTime(resData.details.prepTime);
 						setMaterialTools(resData.details.tools);
 						setMaterialProcesses(resData.details.processes);
+
+						setMaterialPhysicalProperties(resData.physicalProperties);
 					}
 				});
 		}, [MaterialRef]);
@@ -587,13 +639,23 @@ export default function MaterialEdit(props) {
 													return (
 														<OptionInput key={ key } componentData={{
 															optionIndex : key, 
-															initialOption : materialTool,
+															item : materialTool,
 															options : tools,
 															updateSelectedOption : handleToolOnChange
 														}} />
 													)
 												})
 											}
+										</div>
+
+										<div>
+											<Button componentData={{
+												class : "",
+												copy : "Add",
+												type : "function",
+												link : "",
+												function : handleAddTool
+											} } />
 										</div>
 									</div>
 								</div>
@@ -608,13 +670,23 @@ export default function MaterialEdit(props) {
 													return (
 														<OptionInput key={ key } componentData={{
 															optionIndex : key, 
-															initialOption : materialProcess,
+															item : materialProcess,
 															options : processes,
 															updateSelectedOption : handleProcessOnChange
 														}} />
 													)
 												})
 											}
+										</div>
+
+										<div>
+											<Button componentData={{
+												class : "",
+												copy : "Add",
+												type : "function",
+												link : "",
+												function : handleAddProcess
+											} } />
 										</div>
 									</div>
 								</div>
@@ -628,7 +700,15 @@ export default function MaterialEdit(props) {
 				</div>
 
 				<div className="propertiesContainer">
+					<div className="inner">
+						<PropertiesArea componentData={{
+							customClass : "physicalProperties",
+							propertyGroup : materialPhysicalProperties,
+							updatePropertyGroup : handlePhysicalPropertiesChange
+						}} />
 
+						
+					</div>
 				</div>
 
 				<div className="methodContainer">

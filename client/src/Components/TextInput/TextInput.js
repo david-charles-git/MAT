@@ -10,7 +10,9 @@ import './TextInput.scss';
 //exports
 export default function TextInput(props) {
     //properties
-    const currentValue = props.componentData.currentValue ? props.componentData.currentValue : ""; //string
+    const item = props.componentData.item;
+    const currentValue = item ? item.value : ""; //string
+    const updateTextValues = props.componentData.updateTextValues; //any
 
     //states
     var [TextInputValue, setTextInputValue] = useState(currentValue); //string
@@ -24,8 +26,13 @@ export default function TextInput(props) {
 
         if (targetElement) {
             const elmtValue = targetElement.value; //string
+            const newItem = item;
+
+            newItem.value = elmtValue;
+            newItem.name = elmtValue;
 
             setTextInputValue(elmtValue);
+            updateTextValues(newItem);
 
         } else {
             //do nothing
@@ -34,7 +41,7 @@ export default function TextInput(props) {
 
     //variables
     const componentClass = "TextInput"; //string
-
+    
 	return (
 		<div className={ componentClass }>
             <div className="inner">

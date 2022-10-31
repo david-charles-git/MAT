@@ -13,35 +13,37 @@ import './PropertyInput.scss';
 
 //exports
 export default function PropertyInput(props) {
-    //dataObject
-    const dataObject = props.componentData.dataObject; //obj
+    //property
+    const propertyGroup = props.componentData.propertyGroup; //Array<obj>
+    const property = props.componentData.property; //obj
+    const handlePropertyChange = props.componentData.handlePropertyChange; //any
 
-    if (dataObject) {
+    if (property) {
         //properties
-        const allowMultiple = dataObject.allowMultiple; //bool
-        const duplicateFields = dataObject.duplicateFields; //Array<string>
-        const dataName = dataObject.name; //string
-        const description = dataObject.description; //string
-        const dataType = dataObject.type; //string
-        const values = dataObject.values; //Array<obj>
-        const units = dataObject.units; //Array<obj>
-        const scales = dataObject.scales; //Array<obj>
-        const items = dataObject.items; //Array<obj>
+        const propertyName = property.name; //string
+        const propertyValue = property.value; //string
+        const propertyDescription = property.description; //string
+        const propertyType = property.type; //string
+        const propertyAllowMultipleItems = property.allowMultipleItems; //bool
+        const propertyOptions = property.options; //Array<obj>
+        const propertyUnits = property.units; //Array<obj>
+        const propertyScales = property.scales; //Array<obj>
+        const propertyItems = property.items; //Array<obj>
 
         //functions
-        const generateBodyClass = () => {
-            var bodyClass = "body"; //string
+        // const generateBodyClass = () => {
+        //     var bodyClass = "body"; //string
 
-            if (units.length > 0 && scales.length > 0) {
-                bodyClass += " threeColumn";
+        //     if (propertyUnits.length > 0 && propertyScales.length > 0) {
+        //         bodyClass += " threeColumn";
 
-            } else if (units.length > 0 || scales.length > 0) {
-                bodyClass += " twoColumn";
+        //     } else if (propertyUnits.length > 0 || propertyScales.length > 0) {
+        //         bodyClass += " twoColumn";
 
-            }
+        //     }
 
-            return bodyClass;
-        };
+        //     return bodyClass;
+        // };
 
         //variables
         const componentClass = "PropertyInput"; //string
@@ -50,65 +52,85 @@ export default function PropertyInput(props) {
             <div className={ componentClass }>
                 <div className="inner">
                     <div className="head">
-                        { dataName ? <h6>{ dataName }</h6> : <></> }
+                        { propertyName ? <h6>{ propertyName }</h6> : <></> }
 
-                        <InfoIconWithPopUp componentData={ { information : description, reference : null } } />
+                        <InfoIconWithPopUp componentData={ { information : propertyDescription, reference : null } } />
                     </div>
 
                     {
-                        items.length > 0 ? 
-                            items.map((item, key) => {
+                        propertyItems.length > 0 ? 
+                        propertyItems.map((item, key) => {
                                 return (
-                                    <div key={ key } className={ generateBodyClass() }>
+                                    <div key={ key } className={ "generateBodyClass" }>
                                         <ValueInput componentData={
                                             {
-                                                dataType : dataType,
-                                                values : values,
-                                                currentIsRange : item.isRange,
-                                                currentValue : item.value,
-                                                currentMinValue : item.minValue,
-                                                currentMaxValue : item.maxValue,
-                                                currentDeviation : item.deviation,
-                                                currentStandardFormIndex : item.standardFormIndex
+                                                index : key,
+                                                type : propertyType,
+                                                options : propertyOptions,
+                                                propertyGroup : propertyGroup,
+                                                item : item,
+                                                updateValue : handlePropertyChange
                                             }
                                         } />
 
-                                        <UnitInput componentData={ { units : units, currentUnit : item.unit } } />
+                                        <UnitInput componentData={ {
+                                            index : key,
+                                            units : propertyUnits,
+                                            propertyGroup : propertyGroup,
+                                            item : item,
+                                            updateItem : handlePropertyChange
+                                        } } />
 
-                                        <ScaleInput componentData={ { scales : scales, currentScale : item.scale } } />
+                                        <ScaleInput componentData={ {
+                                            index : key,
+                                            scales : propertyScales,
+                                            propertyGroup : propertyGroup,
+                                            item : item,
+                                            updateItem : handlePropertyChange
+                                        } } />
                                     </div>
                                 )
                             })
                         :
-                            <div className={ generateBodyClass() }>
+                            <div className={ "generateBodyClass" }>
                                 <ValueInput componentData={
                                     {
-                                        dataType : dataType,
-                                        values : values,
-                                        currentIsRange : null,
-                                        currentValue : null,
-                                        currentMinValue : null,
-                                        currentMaxValue : null,
-                                        currentDeviation : null,
-                                        currentStandardFormIndex : null
+                                        index : 0,
+                                        type : propertyType,
+                                        options : propertyOptions,
+                                        propertyGroup : propertyGroup,
+                                        item : {},
+                                        updateItem : handlePropertyChange
                                     }
                                 } />
 
-                                <UnitInput componentData={ { units : units, currentUnit : null } } />
+                                <UnitInput componentData={ {
+                                    index : 0,
+                                    units : propertyUnits,
+                                    propertyGroup : propertyGroup,
+                                    item : {},
+                                    updateItem : handlePropertyChange
+                                } } />
 
-                                <ScaleInput componentData={ { scales : scales, currentScale : null } } />
+                                <ScaleInput componentData={ {
+                                    index : 0,
+                                    scales : propertyScales,
+                                    propertyGroup : propertyGroup,
+                                    item : {},
+                                    updateItem : handlePropertyChange
+                                } } />
                             </div>
                     }
 
                     {
-                        allowMultiple ? 
+                        propertyAllowMultipleItems ? 
                             <Button componentData={ 
                                 {
                                     class : "",
-                                    copy : "Add Property",
+                                    copy : "Add " + propertyName,
                                     type : "function",
                                     link : "",
-                                    function : (event) => { console.log(event.currentTarget, "Dup Fields: " + duplicateFields) }
+                                    function : (event) => { console.log(event.currentTarget); }
                                 }
                             } />
                         :
