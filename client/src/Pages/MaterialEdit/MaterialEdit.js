@@ -10,6 +10,7 @@ import './MaterialEdit.scss';
 import Grid from "../../Components/Grid/Grid";
 import Carousel from "../../Components/Carousel/Carousel";
 import Button from "../../Components/Button/Button";
+import OptionInput from "../../Components/OptionInput/OptionInput";
 
 //exports
 export default function MaterialEdit(props) {
@@ -240,12 +241,42 @@ export default function MaterialEdit(props) {
             //validation error handler here
         }
 	};
-	const handleToolOnChange = (event) => {
-		const elmt = event.currentTarget || event.target;
+	const handleToolOnChange = (dataObj) => {
+		if (dataObj) {
+			const dataIndex = dataObj.index;
 
-		if (elmt) {
-			console.log("tools change");
+			if (materialTools[dataIndex]) {
+				const newMaterialTools = materialTools; //Array<obj>
+				const newTool = { //obj
+					name : dataObj.name,
+					ref : dataObj.ref,
+					description : dataObj.description,
+					link : dataObj.link
+				};
 
+				newMaterialTools[dataIndex] = newTool;
+
+				setMaterialTools(newMaterialTools);
+			}
+		}
+	};
+	const handleProcessOnChange = (dataObj) => {
+		if (dataObj) {
+			const dataIndex = dataObj.index;
+
+			if (materialProcesses[dataIndex]) {
+				const newMaterialProcesses = materialProcesses; //Array<obj>
+				const newProcess = { //obj
+					name : dataObj.name,
+					ref : dataObj.ref,
+					description : dataObj.description,
+					link : dataObj.link
+				};
+
+				newMaterialProcesses[dataIndex] = newProcess;
+
+				setMaterialProcesses(newMaterialProcesses);
+			}
 		}
 	};
 
@@ -552,39 +583,35 @@ export default function MaterialEdit(props) {
 
 										<div className="toolsContainer">
 											{
-												materialTools.map((materialTool, key_1) => {
+												materialTools.map((materialTool, key) => {
 													return (
-														<div key={ key_1 } index={ key_1 } className="SelectContainer">
-															<div className="inner">
-																<div className="head">
-																	<input type="hidden" value={ materialTool.name } />
-																	<input type="hidden" value={ materialTool.ref } />
-																	<p>{ materialTool.name || "Select a tool" }</p>
-																</div>
+														<OptionInput key={ key } componentData={{
+															optionIndex : key, 
+															initialOption : materialTool,
+															options : tools,
+															updateSelectedOption : handleToolOnChange
+														}} />
+													)
+												})
+											}
+										</div>
+									</div>
+								</div>
 
-																<div className="body">
-																	<div className="inner">
-																		{
-																			tools.map((tool, key_2) => {
-																				const optionClass = materialTool.ref === tool.ref ? "option active" : "option";
+								<div>
+									<div>
+										<h6>Processes</h6>
 
-																				return (
-																					<p
-																						key={ key_2 }
-																						className={ optionClass }
-																						onClick={ handleToolOnChange }
-																						toolname={ tool.name }
-																						toolref={ tool.ref }
-																					>
-																						{ tool.name }
-																					</p>
-																				)
-																			})
-																		}
-																	</div>
-																</div>
-															</div>
-														</div>
+										<div className="processesContainer">
+											{
+												materialProcesses.map((materialProcess, key) => {
+													return (
+														<OptionInput key={ key } componentData={{
+															optionIndex : key, 
+															initialOption : materialProcess,
+															options : processes,
+															updateSelectedOption : handleProcessOnChange
+														}} />
 													)
 												})
 											}

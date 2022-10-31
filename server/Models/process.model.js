@@ -13,6 +13,14 @@ const processSchema = new Schema({ //any
     ref : {        
         type : String,
         trim : true,
+    },
+    description : {
+        type : String,
+        trim : true,
+    },
+    link : {
+        type : String,
+        trim : true
     }
 });
 const Process = mongoose.model("Process", processSchema); //any

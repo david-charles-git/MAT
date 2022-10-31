@@ -10,10 +10,14 @@ const { Process } = require("../Models/process.model"); //any
 router.route("/add").post((req, res) => {
     const name = req.body.name; //string
     const ref = req.body.ref; //string
+    const description = req.body.description; //string
+    const link = req.body.link; //string
     const newProcess = new Process( //any
         {
             name,
-            ref
+            ref,
+            description,
+            link
         }
     );
 
@@ -66,6 +70,8 @@ router.route("/update/:ref").post((req, res) => {
     const newProcess = { //any
         name : req.body.name,
         ref : req.body.ref,
+        description : req.body.description,
+        link : req.body.link
     };
 
     Process.findOneAndUpdate({ ref : req.params.ref }, newProcess, (error, data) => {});
