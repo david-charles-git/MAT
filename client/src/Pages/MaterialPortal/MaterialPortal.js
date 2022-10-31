@@ -73,7 +73,7 @@ export default function MaterialPortal(props) {
 
 											return (
 												<div key={ key_1 } className={ itemClassName }>
-													<Link to={ "/materials/view/?materialRef=" + material.ref } >
+													<Link to={ "/materials/edit/?materialRef=" + material.ref } >
 														<ImageContainer componentData={ {
 															imageSource : material.coverImage.source,
 															imageAlt : "Material: " + material.name
