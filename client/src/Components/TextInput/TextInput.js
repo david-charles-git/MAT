@@ -11,7 +11,7 @@ import './TextInput.scss';
 export default function TextInput(props) {
     //properties
     const item = props.componentData.item;
-    const currentValue = item ? item.value : ""; //string
+    const currentValue = item.value ? item.value : ""; //string
     const updateTextValues = props.componentData.updateTextValues; //any
 
     //states
@@ -21,20 +21,13 @@ export default function TextInput(props) {
     const TextInputValueRef = useRef(); //any
 
     //functions
-    const handleTextInputOnChange = (event) => {
-        const targetElement = event.currenttarget ? event.currentTarget : event.target; //any
+    const handleTextInputOnChange = () => {
+        const elmtValue = TextInputValueRef.current.value; //string
+        const newItem = item;
 
-        if (targetElement) {
-            const elmtValue = targetElement.value; //string
-            const newItem = item;
-
-            newItem.value = elmtValue;
-            setTextInputValue(elmtValue);
-            updateTextValues(newItem);
-
-        } else {
-            //do nothing
-        }
+        newItem.value = elmtValue;
+        setTextInputValue(elmtValue);
+        updateTextValues(newItem);
     };
 
     //variables
@@ -43,9 +36,8 @@ export default function TextInput(props) {
 	return (
 		<div className={ componentClass }>
             <div className="inner">
-                <input ref={ TextInputValueRef } type="hidden" value={ TextInputValue } />
-
                 <input
+                    ref={ TextInputValueRef }
                     type="text"
                     placeholder="Enter Text"
                     value={ TextInputValue }

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import './MaterialPortal.scss';
+
 import Carousel from "../../Components/Carousel/Carousel";
 import ImageContainer from "../../Components/ImageContainer/ImageContainer";
 import Grid from "../../Components/Grid/Grid";
@@ -19,8 +20,8 @@ export default function MaterialPortal(props) {
 
 	//states
 	var [firstName, setFirstName] = useState(""); //string
-	var [lastName, setLastName] = useState("");
-	var [materiralContributions, setMaterialContributions] = useState([]); //Array<obj>
+	var [lastName, setLastName] = useState(""); //string
+	var [contributions, setContributions] = useState([]); //Array<obj>
 
 	//variables
 	var introContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum condimentum id libero vitae vehicula. Donec interdum nec purus eget condimentum. Nulla et porttitor turpis. Ut suscipit dolor eget sapien egestas mattis. Cras vehicula efficitur sem, id luctus arcu lobortis ut. Integer at laoreet massa. Quisque vitae nibh metus. Quisque pharetra porttitor arcu, eget mollis lectus dignissim id. Etiam eget nunc dignissim, scelerisque ligula et, sollicitudin nulla. Aliquam erat volutpat. Nulla efficitur blandit dui, nec auctor risus interdum a. Mauris aliquet ullamcorper massa, eget mattis mauris. Cras fringilla id risus quis fringilla. Vestibulum scelerisque blandit dolor non congue. Etiam et nisl vitae neque rutrum accumsan sit amet sed nisl."; //string
@@ -30,16 +31,16 @@ export default function MaterialPortal(props) {
 		useEffect(() => {
 			axios.get("http://localhost:5000/materials/findByCreatorUserName/" + userName)
 				.then((res) => {
-					setMaterialContributions(res.data);
+					setContributions(res.data);
 
 				})
-		}, []);
+		}, [userName]);
 
 		//get user first name
 		useEffect(() => {
 			axios.get("http://localhost:5000/users/findByUserName/" + userName)
 				.then((res) => {
-					const resData = res.data[0];
+					const resData = res.data[0]; //obj
 
 					if (resData) {
 						setFirstName(resData.firstName);
@@ -47,52 +48,45 @@ export default function MaterialPortal(props) {
 					}
 
 				})
-		}, []);
+		}, [userName]);
 
 	return (
 		<div className="MaterialPortal"> 
             <div className="inner">
                 <div className='introContainer'>
 					<div className='inner'>
-						<h4>Welcome Back, { firstName }</h4>
+						<h4>Welcome Back, { firstName } { lastName }</h4>
 
 						<p>{ introContent }</p>	
 					</div>	
 				</div> 
 
 				{
-					materiralContributions.length > 0 ?
+					contributions.length > 0 ?
 						<div className='MaterialContribuitionsContainer'>
 							<div className='inner'>
 								<h4>Manage Your Contributions</h4>
 
 								<Carousel componentData={ { customClass : "MaterialContribuitions", numberOfColumns : 4 } } >
 									{
-										materiralContributions.map((material, key_1) => {
-											const itemClassName = material.published ? "item published" : "item";
+										contributions.map((contribution, key_1) => {
+											const itemClassName = contribution.published ? "item published" : "item";
 
 											return (
 												<div key={ key_1 } className={ itemClassName }>
-													<Link to={ "/materials/edit/?materialRef=" + material.ref } >
+													<Link to={ "/materials/edit/?materialRef=" + contribution.ref } >
 														<ImageContainer componentData={ {
-															imageSource : material.coverImage.source,
-															imageAlt : "Material: " + material.name
+															imageSource : contribution.coverImage.source,
+															imageAlt : "Material: " + contribution.name
 														} } />
 
-														<p>{ material.name }</p>
+														<p>{ contribution.name }</p>
 
-														<p>{ material.ref }</p>
-
-														{
-															material.forkedFromRef ?
-																<p>{ material.forkedFromRef }</p>
-															:
-																<></>
-														}
+														<p>{ contribution.ref }</p>
 
 														<p>
 															{
-																material.details.authors.map((author, key_2) => {
+																contribution.details.authors.map((author, key_2) => {
 																	return (
 																		<span key={ key_2 }>{ author }</span>
 																	)

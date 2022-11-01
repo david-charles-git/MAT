@@ -12,7 +12,7 @@ import './PropertiesArea.scss';
 export default function PropertiesArea(props) {
     //properties
     const customClass = props.componentData.customClass; //string
-    const propertyGroup = props.componentData.propertyGroup; //obj
+    const propertyGroup = props.componentData.propertyGroup ? props.componentData.propertyGroup : {}; //obj
     const updatePropertyGroup = props.componentData.updatePropertyGroup; //any
 
     //states
@@ -36,7 +36,7 @@ export default function PropertiesArea(props) {
     //effects
         useEffect(() => {
             setAreaProperties(propertyGroup);
-        });
+        }, [propertyGroup]);
 
     if (areaProperties.value) {
         return (

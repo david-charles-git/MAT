@@ -7,11 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams  } from "react-router-dom";
 import axios from "axios";
 import './MaterialEdit.scss';
+
+import { materialDataStructure, materialCoverImageDataStructure, materialDetailsDataStructure } from "../../DataStructures/material";
+import { physicalPropertiesDataStructure } from "../../DataStructures/physicalProperties";
 import Grid from "../../Components/Grid/Grid";
 import Carousel from "../../Components/Carousel/Carousel";
 import Button from "../../Components/Button/Button";
-import OptionInput from "../../Components/OptionInput/OptionInput";
 import PropertiesArea from "../../Areas/PropertiesArea/PropertiesArea";
+import DetailsArea from "../../Areas/DetailsArea/DetailsArea";
 
 //exports
 export default function MaterialEdit(props) {
@@ -20,10 +23,6 @@ export default function MaterialEdit(props) {
 
 	//states
     var [searchParams, setSearchParams] = useSearchParams();
-
-	var [tools, setTools] = useState([]); //Array<obj>
-	var [processes, setProcesses] = useState([]); //Array<obj>
-
 	var [materialName, setmaterialName] = useState(""); //sting
     var [materialRef, setMaterialRef] = useState(""); //string
 	var [materialForkedFromRef, setMaterialForkedFromRef] = useState(""); //string
@@ -31,87 +30,49 @@ export default function MaterialEdit(props) {
 	var [materialPublished, setMaterialPublished] = useState(false); //bool 
 	var [materialCreationDate, setMaterialCreationDate] = useState(""); //string
 	var [materialUpdetedDate, setMaterialUpdetedDate] = useState(""); //string
-
 	var [creatorFirstName, setCreatorFirstName] = useState(""); //string
 	var [creatorLastName, setCreatorLastName] = useState(""); //string
-
-	var [materialCoverImageSrc, setMaterialCoverImageSrc] = useState(""); //string
-
-	var [materialAuthors, setMaterialAuthors] = useState([]) //Array<string>
-	var [materialDescription, setMaterialDescription] = useState(""); //string
-	var [materialLicense, setMaterialLicense] = useState(""); //string
-	var [materialSources, setMaterialSources] = useState([]) //Array<string>
-	var [materialDifficulty, setMaterialDifficulty] = useState(0) //number
-	var [materialPrepTime, setMaterialPrepTime] = useState(0); //number
-	var [materialTools, setMaterialTools] = useState([]); //Array<obj>
-	var [materialProcesses, setMaterialProcesses] = useState([]) //Array<obj>
-
-	var [materialPhysicalProperties, setMaterialPhysicalProperties] = useState({}); //obj
+	var [materialCoverImage, setMaterialCoverImage] = useState(materialCoverImageDataStructure); //obj
+	var [materialDetails, setMaterialDetails] = useState(materialDetailsDataStructure); //obj
+	var [materialPhysicalProperties, setMaterialPhysicalProperties] = useState(physicalPropertiesDataStructure); //obj
 
 	//ref
-	const coverImageRef = useRef(); //any
-	const descriptionRef = useRef(); //any
-	const licenseRef = useRef(); //any
-	const prepTimeRef = useRef(); //any
+	const coverImageSrcRef = useRef(); //any
 
 	//functions
 	const navigate = useNavigate();
 	const handleSaveMaterial = () => {
 		const postTo = "http://localhost:5000/materials/update/" + materialRef; //string
-		const data = { //obj
-			name : materialName,
-			ref : materialRef,
-			forkedFromRef : materialForkedFromRef,
-			creatorUserName : materialCreatorUserName,
-			published : materialPublished,
+		var newMaterial = materialDataStructure; //obj
 
-			coverImage : {
-				source : materialCoverImageSrc
-			},
-			details : {
-				description : materialDescription,
-				authors : materialAuthors,
-				license : materialLicense,
-				sources : materialSources,
-				difficulty : materialDifficulty,
-				prepTime : materialPrepTime,
-				tools : materialTools,
-				processes : materialProcesses
-			},
-			physicalProperties : materialPhysicalProperties
-		};
+		newMaterial.name = materialName;
+		newMaterial.ref = materialRef;
+		newMaterial.forkedFromRef = materialForkedFromRef;
+		newMaterial.creatorUserName = materialCreatorUserName;
+		newMaterial.published = materialPublished;
+		newMaterial.coverImage = materialCoverImage;
+		newMaterial.details = materialDetails;
+		newMaterial.physicalProperties = materialPhysicalProperties;
 
-		axios.post(postTo, data)
+		axios.post(postTo, newMaterial)
 			.then((res) => { console.log("Material saved"); });
 	};
 	const handlePublishMaterial = () => {
+		const postTo = "http://localhost:5000/materials/update/" + materialRef; //string
+		var newMaterial = materialDataStructure; //obj
+
+		newMaterial.name = materialName;
+		newMaterial.ref = materialRef;
+		newMaterial.forkedFromRef = materialForkedFromRef;
+		newMaterial.creatorUserName = materialCreatorUserName;
+		newMaterial.published = true;
+		newMaterial.coverImage = materialCoverImage;
+		newMaterial.details = materialDetails;
+		newMaterial.physicalProperties = materialPhysicalProperties;
+		
 		setMaterialPublished(true);
 
-		const postTo = "http://localhost:5000/materials/update/" + materialRef; //string
-		const data = { //obj
-			name : materialName,
-			ref : materialRef,
-			forkedFromRef : materialForkedFromRef,
-			creatorUserName : materialCreatorUserName,
-			published : true,
-
-			coverImage : {
-				source : materialCoverImageSrc
-			},
-			details : {
-				description : materialDescription,
-				authors : materialAuthors,
-				license : materialLicense,
-				sources : materialSources,
-				difficulty : materialDifficulty,
-				prepTime : materialPrepTime,
-				tools : materialTools,
-				processes : materialProcesses
-			},			
-			physicalProperties : materialPhysicalProperties
-		};
-
-		axios.post(postTo, data)
+		axios.post(postTo, newMaterial)
 			.then((res) => { console.log("Material Published"); });
 
 		navigate("/");
@@ -124,246 +85,59 @@ export default function MaterialEdit(props) {
 
 		navigate("/");
 	};
+	const handleCoverImageChange = (updatedCoverImage) => {
+		var newCoverImage = materialCoverImageDataStructure;
 
-	const handleCoverImageOnChange = () => {
-		const newCoverImageSrc = coverImageRef.current.value;
+		newCoverImage.source = coverImageSrcRef.current.value;
 
         if (true) { //font-end validation here
-            setMaterialCoverImageSrc(newCoverImageSrc);
+            setMaterialCoverImage(newCoverImage);
 
         } else {
             //validation error handler here
         }
 	};
-
-	const handleDescriptionOnChange = () => {
-		const newDescription = descriptionRef.current.value;
-
-        if (true) { //font-end validation here
-            setMaterialDescription(newDescription);
-
-        } else {
-            //validation error handler here
-        }
-	};
-	const handleAuthorOnChange = (event) => {
-		const elmt = event.currentTarget || event.target;
-
-		if (elmt) {			
-			const elmtValue = elmt.value; //string
-
-			if (true) { //font-end validation here
-				const authorArray = [...materialAuthors]; //Array<string>
-				const elmtIndex = elmt.getAttribute("index"); //number
-				
-				authorArray[elmtIndex] = elmtValue;
-				setMaterialAuthors(authorArray);
-
-			} else {
-            	//validation error handler here
-			}
+	const handleDetailsChange = (updatedDetails) => {
+		if (Object.keys(updatedDetails).length > 0) {
+			setMaterialDetails(updatedDetails);
 		}
 	};
-	const handleAddAuthor = () => {
-		var authorArray = [...materialAuthors]; //Arra<string>
-
-		if (authorArray[authorArray.length - 1]) {
-			authorArray.push("");
-			setMaterialAuthors(authorArray);
-
-		} else {
-			//will not add Author
-		}
-	};
-	const handleLicenseOnChange = () => {
-		const newLicense = licenseRef.current.value;
-
-        if (true) { //font-end validation here
-            setMaterialLicense(newLicense);
-
-        } else {
-            //validation error handler here
-        }
-	};
-	const handleSourceOnChange = (event) => {
-		const elmt = event.currentTarget || event.target;
-
-		if (elmt) {		
-			const elmtParent = elmt.parentElement;
-			
-			if (elmtParent.classList.contains("sourceInputs")) {
-				const inputs = elmtParent.getElementsByTagName("INPUT");
-				const inputValues = { //obj
-					name : inputs[0].value,
-					source : inputs[1].value
-				};
-
-				if (true) { //font-end validation here
-					const sourceArray = [...materialSources]; //Array<obj>
-					const elmtIndex = elmtParent.getAttribute("index"); //number
-					
-					sourceArray[elmtIndex] = inputValues;
-					setMaterialSources(sourceArray);
-
-				} else {
-					//validation error handler here
-				}
-			}
-		}
-	};
-	const handleAddSource = () => {
-		var sourceArray = [...materialSources]; //Arra<string>
-
-		if (sourceArray[sourceArray.length - 1].name && sourceArray[sourceArray.length - 1].source) {
-			sourceArray.push({ name : "", source : "" });
-			setMaterialSources(sourceArray);
-
-		} else {
-			//will not add Author
-		}
-	};
-	const handleDifficultyOnChange = (event) => {
-		const elmt = event.currentTarget || event.target; //any
-
-		if (elmt) {
-			const elmtIndex = parseInt(elmt.getAttribute("index")); //number
-
-			if(true){ //handle validation here
-				setMaterialDifficulty(elmtIndex);
-
-			} else {
-				//do error function
-
-			}
-		}
-	};
-	const handlePrepTimeOnChange = () => {
-		const newMaterialPrepTime = prepTimeRef.current.value;
-
-        if (true) { //font-end validation here
-            setMaterialPrepTime(newMaterialPrepTime);
-
-        } else {
-            //validation error handler here
-        }
-	};
-	const handleToolOnChange = (dataObj) => {
-		if (dataObj) {
-			const dataIndex = dataObj.index;
-
-			if (materialTools[dataIndex]) {
-				const newMaterialTools = materialTools; //Array<obj>
-				const newTool = { //obj
-					name : dataObj.name,
-					ref : dataObj.ref,
-					description : dataObj.description,
-					link : dataObj.link
-				};
-
-				newMaterialTools[dataIndex] = newTool;
-
-				setMaterialTools(newMaterialTools);
-			}
-		}
-	};
-	const handleAddTool = () => {
-		var toolsArray = [...materialTools]; //Arra<obj>
-		var tool = {
-			name : "",
-			ref : "",
-			description : "",
-			link : ""
-		};
-
-		if (toolsArray[toolsArray.length - 1].ref) {
-			toolsArray.push(tool);
-
-			setMaterialTools(toolsArray);
-
-		} else {
-			//will not add Tool
-		}
-	};
-	const handleProcessOnChange = (dataObj) => {
-		if (dataObj) {
-			const dataIndex = dataObj.index;
-
-			if (materialProcesses[dataIndex]) {
-				const newMaterialProcesses = materialProcesses; //Array<obj>
-				const newProcess = { //obj
-					name : dataObj.name,
-					ref : dataObj.ref,
-					description : dataObj.description,
-					link : dataObj.link
-				};
-
-				newMaterialProcesses[dataIndex] = newProcess;
-
-				setMaterialProcesses(newMaterialProcesses);
-			}
-		}
-	};
-	const handleAddProcess = () => {
-		var processesArray = [...materialProcesses]; //Arra<obj>
-		var process = {
-			name : "",
-			ref : "",
-			description : "",
-			link : ""
-		};
-
-		if (processesArray[processesArray.length - 1].ref) {
-			processesArray.push(process);
-
-			setMaterialProcesses(processesArray);
-
-		} else {
-			//will not add Process
-		}
-	};
-
-	const handlePhysicalPropertiesChange = (physicalProperties) => {
-		if (physicalProperties.value) {
-			setMaterialPhysicalProperties(physicalProperties);
+	const handlePhysicalPropertiesChange = (updatedPhysicalProperties) => {
+		if (Object.keys(updatedPhysicalProperties).length > 0) {
+			setMaterialPhysicalProperties(updatedPhysicalProperties);
 		}
 	};
 	
 
 	//variables
-    const MaterialRef = searchParams.get("materialRef");
-	const materialEditClassName = materialPublished ? "MaterialEdit published" : "MaterialEdit";
+    const MaterialRef = searchParams.get("materialRef"); //string
+	const materialEditClassName = materialPublished ? "MaterialEdit published" : "MaterialEdit"; //string
 
 	//Effects
 		//set material data
-		useEffect(() => {
-			const getURL = "http://localhost:5000/materials/findByRef/" + MaterialRef; //string
+		useEffect(() => { 
+			if (MaterialRef) {
+				const getURL = "http://localhost:5000/materials/findByRef/" + MaterialRef; //string
 
-			axios.get(getURL)
-				.then((res) => {
-					const resData = res.data[0]; //obj
+				axios.get(getURL)
+					.then((res) => {
+						const resData = res.data[0]; //obj
 
-					if (resData) {
-						setmaterialName(resData.name);
-						setMaterialRef(resData.ref);
-						setMaterialForkedFromRef(resData.forkedFromRef);
-						setMaterialCreatorUserName(resData.creatorUserName);
-						setMaterialPublished(resData.published);
-						setMaterialCreationDate(resData.createdAt);
-						setMaterialUpdetedDate(resData.updatedAt);
+						if (resData) {
+							setmaterialName(resData.name);
+							setMaterialRef(resData.ref);
+							setMaterialForkedFromRef(resData.forkedFromRef);
+							setMaterialCreatorUserName(resData.creatorUserName);
+							setMaterialPublished(resData.published);
+							setMaterialCreationDate(resData.createdAt);
+							setMaterialUpdetedDate(resData.updatedAt);
 
-						setMaterialCoverImageSrc(resData.coverImage.source);
-						setMaterialDescription(resData.details.description);
-						setMaterialAuthors(resData.details.authors);
-						setMaterialLicense(resData.details.license);
-						setMaterialSources(resData.details.sources);
-						setMaterialDifficulty(resData.details.difficulty);
-						setMaterialPrepTime(resData.details.prepTime);
-						setMaterialTools(resData.details.tools);
-						setMaterialProcesses(resData.details.processes);
-
-						setMaterialPhysicalProperties(resData.physicalProperties);
-					}
-				});
+							setMaterialCoverImage(resData.coverImage);
+							setMaterialDetails(resData.details);
+							setMaterialPhysicalProperties(resData.physicalProperties);
+						}
+					});
+			}
 		}, [MaterialRef]);
 
 		//set user data
@@ -383,36 +157,6 @@ export default function MaterialEdit(props) {
 					});
 			}
 		}, [materialCreatorUserName]);
-
-		//get tool List
-		useEffect(() => {
-			const getURL = "http://localhost:5000/tools/"; //string
-			
-			axios.get(getURL)
-				.then((res) => {
-					const resData = res.data;
-
-					if (resData) {
-						setTools(resData);
-
-					}
-				})
-		}, []);
-
-		//get process List
-		useEffect(() => {
-			const getURL = "http://localhost:5000/processes/"; //string
-
-			axios.get(getURL)
-				.then((res) => {
-					const resData = res.data;
-
-					if (resData) {
-						setProcesses(resData);
-
-					}
-				})
-		}, []);
 
 	return (
 		<div className={ materialEditClassName }> 
@@ -448,11 +192,11 @@ export default function MaterialEdit(props) {
 						<h4>Cover Image</h4>
 
 						<input
-							ref={ coverImageRef }
+							ref={ coverImageSrcRef }
 							type="text"
-							value={ materialCoverImageSrc }
+							value={ materialCoverImage.source }
 							placeholder="Cover Image Source"
-							onChange={ handleCoverImageOnChange }
+							onChange={ handleCoverImageChange }
 						/>
 					</div>
 
@@ -480,219 +224,11 @@ export default function MaterialEdit(props) {
 					</div>
 				</div>
 
-				<div className="detailsCotnainer">
-					<Grid componentData={ { customClass : "", numberOfColumns : 2} } >
-						<div className="details">
-							<div className="inner">
-								<div>
-									<div>
-										<h6>Description</h6>
-
-										<div className="descriptionContainer">
-											<textarea
-												ref={ descriptionRef }
-												value={ materialDescription }
-												placeholder="Enter a description"
-												onChange={ handleDescriptionOnChange }
-											/>
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>Author(s)</h6>
-
-										<div className="authorContainer">
-											{
-												materialAuthors.map((author, key) => {
-													return (
-														<input
-															key={ key }
-															index={ key }
-															type="text"
-															value={ author }
-															placeholder="Enter Author"
-															onChange={ handleAuthorOnChange }
-														/>
-													)
-												})
-											}
-
-											<div>
-												<Button componentData={{
-													class : "",
-													copy : "Add",
-													type : "function",
-													link : "",
-													function : handleAddAuthor
-												} } />
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>License</h6>
-
-										<div className="licenseContainer">
-											<input
-												ref={ licenseRef }
-												type="text"
-												value={ materialLicense }
-												placeholder="Enter License"
-												onChange={ handleLicenseOnChange }
-											/>
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>Source(s)</h6>
-
-										<div className="sourceContainer">
-											{
-												materialSources.map((source, key) => {
-													return (
-														<div className="sourceInputs" key={ key } index={ key }>
-															<input
-																type="text"
-																value={ source.name }
-																placeholder="Enter Source Name"
-																onChange={ handleSourceOnChange }
-															/>
-
-															<input
-																type="text"
-																value={ source.source }
-																placeholder="Enter Source Link"
-																onChange={ handleSourceOnChange }
-															/>
-														</div>
-													)
-												})
-											}
-
-											<div>
-												<Button componentData={{
-													class : "",
-													copy : "Add",
-													type : "function",
-													link : "",
-													function : handleAddSource
-												} } />
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div className="details">
-							<div className="inner">
-								<div>
-									<div>
-										<h6>Difficulty</h6>
-
-										<div className="difficultyContainer">
-											{
-												[0,1,2,3,4].map((key) => {
-													const difficultyClassName = key === materialDifficulty ? "difficultyButton active" : "difficultyButton";
-
-													return (
-														<div key={ key } index={ key } className={ difficultyClassName } onClick={ handleDifficultyOnChange }>
-															<div className="inner" />
-														</div>
-													)
-												})
-											}
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>Preperation Time</h6>
-
-										<div className="prepTimeContainer">
-											<input
-												ref={ prepTimeRef }
-												type="number"
-												value={ materialPrepTime }
-												onChange={ handlePrepTimeOnChange }
-											/>
-											<p>Minutes</p>
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>Tools</h6>
-
-										<div className="toolsContainer">
-											{
-												materialTools.map((materialTool, key) => {
-													return (
-														<OptionInput key={ key } componentData={{
-															optionIndex : key, 
-															item : materialTool,
-															options : tools,
-															updateSelectedOption : handleToolOnChange
-														}} />
-													)
-												})
-											}
-										</div>
-
-										<div>
-											<Button componentData={{
-												class : "",
-												copy : "Add",
-												type : "function",
-												link : "",
-												function : handleAddTool
-											} } />
-										</div>
-									</div>
-								</div>
-
-								<div>
-									<div>
-										<h6>Processes</h6>
-
-										<div className="processesContainer">
-											{
-												materialProcesses.map((materialProcess, key) => {
-													return (
-														<OptionInput key={ key } componentData={{
-															optionIndex : key, 
-															item : materialProcess,
-															options : processes,
-															updateSelectedOption : handleProcessOnChange
-														}} />
-													)
-												})
-											}
-										</div>
-
-										<div>
-											<Button componentData={{
-												class : "",
-												copy : "Add",
-												type : "function",
-												link : "",
-												function : handleAddProcess
-											} } />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</Grid>
-				</div>
+				<DetailsArea componentData={{
+					customClass : "",
+					details : materialDetails,
+					updateDetails : handleDetailsChange
+				}} />
 
 				<div className="ingredientsContainer">
 

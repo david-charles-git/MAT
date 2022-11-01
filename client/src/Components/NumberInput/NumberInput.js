@@ -10,17 +10,18 @@ import './NumberInput.scss';
 //exports
 export default function NumberInput(props) {
     //properties
+    const item = props.componentData.item; //obj
+    const updateNumberValues = props.componentData.updateNumberValues; //any
 
     //states
-    var [isRange, setIsRange] = useState(false); //bool
-    var [numberValue, setNumberValue] = useState(""); //number
-    var [numberMinValue, setNumberMinValue] = useState(""); //number
-    var [numberMaxValue, setNumberMaxValue] = useState(""); //number
-    var [deviation, setDeviation] = useState(0); //number
-    var [standardFormIndex, setStandardFormIndex] = useState(0); //number
+    var [isRange, setIsRange] = useState(item.isRange); //bool
+    var [numberValue, setNumberValue] = useState(item.value); //number
+    var [numberMinValue, setNumberMinValue] = useState(item.minValue); //number
+    var [numberMaxValue, setNumberMaxValue] = useState(item.maxValue); //number
+    var [deviation, setDeviation] = useState(item.deviation); //number
+    var [standardFormIndex, setStandardFormIndex] = useState(item.standardFormIndex); //number
 
     //refs
-    const isRangeRef = useRef(); //any
     const numberValueRef = useRef(); //any
     const numberMinValueRef = useRef(); //any
     const numberMaxValueRef = useRef(); //any
@@ -35,6 +36,7 @@ export default function NumberInput(props) {
             const elmtValue = targetElement.value; //number
 
             setNumberValue(elmtValue);
+            handleupdateNumberValues();
 
         } else {
             //do nothing
@@ -47,6 +49,7 @@ export default function NumberInput(props) {
             const elmtValue = targetElement.value; //number
 
             setNumberMinValue(elmtValue);
+            handleupdateNumberValues();
 
         } else {
             //do nothing
@@ -59,6 +62,7 @@ export default function NumberInput(props) {
             const elmtValue = targetElement.value; //number
 
             setNumberMaxValue(elmtValue);
+            handleupdateNumberValues();
 
         } else {
             //do nothing
@@ -71,6 +75,7 @@ export default function NumberInput(props) {
             const elmtValue = targetElement.value; //number
 
             setStandardFormIndex(elmtValue);
+            handleupdateNumberValues();
 
         } else {
             //do nothing
@@ -83,10 +88,28 @@ export default function NumberInput(props) {
             const elmtValue = targetElement.value; //number
 
             setDeviation(elmtValue);
+            handleupdateNumberValues();
 
         } else {
             //do nothing
         }
+    };
+    const handleupdateNumberValues = () => {
+        const itemIsRange = isRange;
+        const itemValue = parseInt(numberValueRef.current.value); //number
+        const itemMinValue = parseInt(numberMinValueRef.current.value); //number
+        const itemMaxValue = parseInt(numberMaxValueRef.current.value); //number
+        const itemDeviation = parseInt(deviationRef.current.value); //number
+        const itemStandardFormIndex = parseInt(standardFormIndexRef.current.value); //number
+        const newItem = item;
+
+        newItem.isRange = itemIsRange;
+        newItem.value = itemValue;
+        newItem.minValue = itemMinValue;
+        newItem.maxValue = itemMaxValue;
+        newItem.deviation = itemDeviation;
+        newItem.standardFormIndex = itemStandardFormIndex;
+        updateNumberValues(newItem);
     };
 
     //variables
@@ -95,12 +118,11 @@ export default function NumberInput(props) {
 	return (
 		<div className={ componentClass }>
             <div className="inner">
-                <input ref={ isRangeRef } type="hidden" value={ isRange } />
-                <input ref={ numberValueRef } type="hidden" value={ numberValue ? numberValue : "" } />
-                <input ref={ numberMinValueRef } type="hidden" value={ numberMinValue ? numberMinValue : "" } />
-                <input ref={ numberMaxValueRef } type="hidden" value={ numberMaxValue ? numberMaxValue : "" } />
-                <input ref={ deviationRef } type="hidden" value={ deviation ? deviation : "" } />
-                <input ref={ standardFormIndexRef } type="hidden" value={ standardFormIndex ? standardFormIndex : "" } />
+                <input ref={ numberValueRef } type="hidden" value={ numberValue } />
+                <input ref={ numberMinValueRef } type="hidden" value={ numberMinValue ? numberMinValue : 0 } />
+                <input ref={ numberMaxValueRef } type="hidden" value={ numberMaxValue ? numberMaxValue : 0 } />
+                <input ref={ deviationRef } type="hidden" value={ deviation ? deviation : 0 } />
+                <input ref={ standardFormIndexRef } type="hidden" value={ standardFormIndex ? standardFormIndex : 0 } />
 
                 <div className="isRangeContainer">
                     <p>Value is range?</p>
@@ -113,7 +135,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Min"
-                                value={ numberMinValue ? numberMinValue : "" }
+                                value={ numberMinValue ? numberMinValue : 0 }
                                 onChange={ handleNumberMinValueOnChange }
                             />
 
@@ -122,7 +144,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Max"
-                                value={ numberMaxValue ? numberMaxValue : "" }
+                                value={ numberMaxValue ? numberMaxValue : 0 }
                                 onChange={ handleNumberMaxValueOnChange }
                             />
                         </div>
@@ -132,7 +154,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Enter Number"
-                                value={ numberValue ? numberValue : "" }
+                                value={ numberValue ? numberValue : 0 }
                                 onChange={ handleNumberValueOnChange }
                             />
                         </div>

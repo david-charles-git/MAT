@@ -1,3 +1,8 @@
+/*
+	Project : Materiom
+	Author(s) : David Charles - AddMustard
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';

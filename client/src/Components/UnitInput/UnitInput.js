@@ -4,14 +4,21 @@
 */
 
 //imports
+import { useState } from "react";
 import SelectDropDown from "../SelectDropDown/SelectDropDown";
 import './UnitInput.scss';
 
 //exports
 export default function UnitInput(props) {
     //properties
+    const unitIndex = props.componentData.index; //number
     const units = props.componentData.units; //Array<obj>
-    const currentUnit = props.componentData.currentUnit; //obj
+    const unitItems = props.componentData.items; //Array<obj>
+    const unitItem = props.componentData.item; //obj
+    const updateItem = props.componentData.updateItem; //any
+
+    //states
+    var [item, setItem] = useState(unitItem);
 
     //variables
     const componentClass = "UnitInput"; //string
@@ -23,7 +30,7 @@ export default function UnitInput(props) {
                     <p>Unit</p>
 
                     <div className="inputContainer">
-                        <SelectDropDown componentData={ { dropDownOptions : units, selectedOption : currentUnit } } />
+                        <SelectDropDown componentData={ { dropDownOptions : units, selectedOption : item.value } } />
                     </div>
                 </div>
             </div>

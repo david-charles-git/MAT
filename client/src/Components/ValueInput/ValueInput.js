@@ -15,11 +15,12 @@ export default function ValueInput(props) {
     //properties
     const valueIndex = props.componentData.index; //number
     const valueType = props.componentData.type; //sting
-    const valueOptions = props.componentData.options; //Array<obj> 
-    const valueItems = props.componentData.items; //Array<obj>
+    const valueOptions = props.componentData.options ? props.componentData.options : []; //Array<obj> 
+    const valueItems = props.componentData.items ? props.componentData.items : []; //Array<obj>
     const valueItem = props.componentData.item; //obj
-    const updateValue = props.componentData.updateValue;
+    const updateValue = props.componentData.updateValue; //any
 
+    //states
     var [item, setItem] = useState(valueItem);
 
     //functions
@@ -27,16 +28,59 @@ export default function ValueInput(props) {
 
     };
     const handleUpdateTextValue = (newItem) => {
-        if (newItem.value && valueItems[valueIndex]) {
-            var newitems = valueItems;
+        if (newItem.value) {
+            var item = newItem;
+            var newitems = valueItems.length > 0 ? valueItems : [];
 
-            newitems[valueIndex] = newItem;
-            setItem(newItem);
+            if (newitems[valueIndex]) {
+                newitems[valueIndex] = item;
+
+            } else {
+                item = {
+                    isRange : false,
+                    minValue : 0,
+                    maxValue : 0,
+                    deviation : 0,
+                    standardFormIndex : 0,
+                    value : item.value,
+                    unit : "",
+                    scale : "",
+                }
+                newitems = [item];
+
+            }
+
+            setItem(item);
             updateValue(newitems);
         }
 
     };
-    const handleUpdateNumberValue = () => {
+    const handleUpdateNumberValue = (newItem) => {
+        if (newItem.value) {
+            var item = newItem;
+            var newitems = valueItems.length > 0 ? valueItems : [];
+
+            if (newitems[valueIndex]) {
+                newitems[valueIndex] = item;
+
+            } else {
+                item = {
+                    isRange : item.isRange,
+                    minValue : item.minValue,
+                    maxValue : item.maxValue,
+                    deviation : item.deviation,
+                    standardFormIndex : item.standardFo,
+                    value : item.value,
+                    unit : "",
+                    scale : "",
+                }
+                newitems = [item];
+
+            }
+
+            setItem(item);
+            updateValue(newitems);
+        }
 
     };
     const generateValueInput = () => {

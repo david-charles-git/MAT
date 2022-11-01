@@ -3,12 +3,16 @@
 	Author(s) : David Charles - AddMustard
 */
 
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './MaterialCreate.scss';
-import { useEffect, useRef, useState } from "react";
+
+import { materialDataStructure } from "../../DataStructures/material";
 import Grid from "../../Components/Grid/Grid";
 import Button from "../../Components/Button/Button";
+
+
 
 //exports
 export default function MaterialCreate(props) {
@@ -25,8 +29,8 @@ export default function MaterialCreate(props) {
 
 	//functions
     const navigate = useNavigate();
-    const handleMaterialNameOnChange = () => {
-        const newMaterialName = materialNameRef.current.value;
+    const handleMaterialNameChange = () => {
+        const newMaterialName = materialNameRef.current.value; //string
 
         if (true) { //font-end validation here
             setmaterialName(newMaterialName);
@@ -35,61 +39,31 @@ export default function MaterialCreate(props) {
             //validation error handler here
         }
     };
-    const handleCreateFromSubmissionForm = () => {
+    const handleCreateMaterial_new = () => {
         const navigationTo = "/materials/edit/?materialRef=" + materialRef; //string
-        const data = { //obj
-			name : materialName,
-			ref : materialRef,
-            forkedFromRef : "",
-			creatorUserName : userName,
-            published : false,
+        const newMaterial = materialDataStructure; //obj
 
-            coverImage : {
-                source : ""
-            },
-            details : {
-                description : "",
-                authors : [ userName ],
-                license : "",
-                sources : [ { name : "", source : "" } ],
-                difficulty : 0,
-                prepTime : 0,
-                tools : [ { name : "", ref : "" } ],
-                processes : [ { name : "", ref : "" } ],
-            }
-		};
+        newMaterial.name = materialName;
+        newMaterial.ref = materialRef;
+        newMaterial.creatorUserName = userName;
+        newMaterial.details.authors = [ userName ];
 
-		axios.post("http://localhost:5000/materials/add", data)
-			.then((res) => { console.log("Material Created"); });
+		axios.post("http://localhost:5000/materials/add", newMaterial)
+			.then((res) => { console.log("Material Created - edit"); });
         
         navigate(navigationTo);
     };
-    const handleCreateFromFork = () => {
+    const handleCreateMaterial_fork = () => {
         const navigationTo = "/materials/fork/?materialRef=" + materialRef; //string
-        const data = { //obj
-			name : materialName,
-			ref : materialRef,
-            forkedFromRef : "",
-			creatorUserName : userName,
-            published : false,
+        const newMaterial = materialDataStructure; //obj
 
-            coverImage : {
-                source : ""
-            },
-            details : {
-                description : "",
-                authors : [ userName ],
-                license : "",
-                sources : [ { name : "", source : "" } ],
-                difficulty : 0,
-                prepTime : 0,
-                tools : [ { name : "", ref : "" } ],
-                processes : [ { name : "", ref : "" } ],
-            }
-		};
+        newMaterial.name = materialName;
+        newMaterial.ref = materialRef;
+        newMaterial.creatorUserName = userName;
+        newMaterial.details.authors = [ userName ];
 
-		axios.post("http://localhost:5000/materials/add", data)
-			.then((res) => { console.log("Material Created - Fork"); });
+		axios.post("http://localhost:5000/materials/add", newMaterial)
+			.then((res) => { console.log("Material Created - fork"); });
         
         navigate(navigationTo);
     };
@@ -143,7 +117,7 @@ export default function MaterialCreate(props) {
                                 type="text"
                                 placeholder="Enter recipe title"
                                 value={ materialName }
-                                onChange={ handleMaterialNameOnChange }
+                                onChange={ handleMaterialNameChange }
                             />
                         </div>
                     </div>	
@@ -166,16 +140,16 @@ export default function MaterialCreate(props) {
                                     copy : "Submission Form",
                                     type : "function",
                                     link : "",
-                                    function : handleCreateFromSubmissionForm
+                                    function : handleCreateMaterial_new
                                 } } />
 
-                                <Button componentData={ {
+                                {/* <Button componentData={ {
                                     class : "option",
                                     copy : "Fork Existing",
                                     type : "function",
                                     link : "",
-                                    function : handleCreateFromFork
-                                } } />
+                                    function : handleCreateMaterial_fork
+                                } } /> */}
                             </Grid>
                         </div>
                     </div>		

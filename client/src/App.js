@@ -5,7 +5,7 @@
 
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import './App.scss';
-//import PropertyForm from './Components/PropertyForm/PropertyForm';
+
 import MaterialPortal from "./Pages/MaterialPortal/MaterialPortal";
 import MaterialCreate from "./Pages/MaterialCreate/MaterialCreate";
 import MaterialEdit from "./Pages/MaterialEdit/MaterialEdit";
@@ -2722,7 +2722,7 @@ export default function App() {
 		// 	],
 		// },
 	];*/
-	const userName = "David.Charles";
+	const userName = "David.Charles"; //string
 
 	return (
 		<div className="App"> 
@@ -2734,26 +2734,10 @@ export default function App() {
 				</header>
 
 				<main>
-					{/* {
-						allMaterialProperties.length > 0 ?
-							allMaterialProperties.map((materialProperty, key) => {
-								return (
-									<PropertyForm key={ key } componentData={ { propertyData : materialProperty } } />
-								)
-							})
-						:
-							<></>
-					} */}
 					<Routes>
 						<Route path="/" exact element={
 							<MaterialPortal pageData={ { userName : userName } } />
 						} />
-
-						{/* <Route path="/materials" element={
-							<Materials pageData={ {
-								userUserName : currentUserName,
-							} } />
-						} /> */}
 
 						<Route path="/materials/view" element={
 							<MaterialView pageData={ { userName : userName } } />

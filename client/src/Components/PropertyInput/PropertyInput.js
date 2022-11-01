@@ -90,15 +90,15 @@ export default function PropertyInput(props) {
                                         }
                                     } />
 
-                                    {/* <UnitInput componentData={ {
+                                    <UnitInput componentData={ {
                                         index : key,
                                         units : propertyUnits,
-                                        propertyGroup : propertyGroup,
+                                        items : inputPropertyItems,
                                         item : item,
-                                        updateItem : handlePropertyChange
+                                        updateItem : handlePropertyUpdate
                                     } } />
 
-                                    <ScaleInput componentData={ {
+                                    {/* <ScaleInput componentData={ {
                                         index : key,
                                         scales : propertyScales,
                                         propertyGroup : propertyGroup,
@@ -117,19 +117,19 @@ export default function PropertyInput(props) {
                                     options : propertyOptions,
                                     propertyGroup : propertyGroup,
                                     item : {},
-                                    updateItem : handlePropertyUpdate
+                                    updateValue : handlePropertyUpdate
                                 }
                             } />
 
-                            {/* <UnitInput componentData={ {
+                            <UnitInput componentData={ {
                                 index : 0,
                                 units : propertyUnits,
-                                propertyGroup : propertyGroup,
+                                items : propertyGroup,
                                 item : {},
-                                updateItem : handlePropertyChange
+                                updateItem : handlePropertyUpdate
                             } } />
 
-                            <ScaleInput componentData={ {
+                            {/* <ScaleInput componentData={ {
                                 index : 0,
                                 scales : propertyScales,
                                 propertyGroup : propertyGroup,
