@@ -59,7 +59,7 @@ const ingredientsSchema = new Schema({ //any
 });
 
 //Method Schema
-const methodSchema = new Schema({ //any
+const methodsSchema = new Schema({ //any
     name : {
         type : String,
         trim : true,
@@ -212,8 +212,8 @@ const propertySchema = new Schema({ //any
     items : [propertyItemSchema]
 });
 
-//Property Groups Schema
-const physicalPropertiesSchema = new Schema({ //any
+//Properties Schema
+const propertiesSchema = new Schema({ //any
     name : {
         type : String,
         trim : true,
@@ -272,10 +272,16 @@ const materialSchema = new Schema( //any
 
         coverImage : coverImageSchema,
         details : detailsSchema,
-        // ingredients : ingredientsSchema,
-        // method : methodSchema,
-        physicalProperties : physicalPropertiesSchema,
-        // gallery : gallerySchema
+        ingredients : ingredientsSchema,
+        methods : methodsSchema,
+        physicalProperties : propertiesSchema,
+        mechanicalTensionProperties : propertiesSchema,
+        mechanicalCompressionProperties : propertiesSchema,
+        chemicalProperties : propertiesSchema,
+        thermalProperties : propertiesSchema,
+        opticalProperties : propertiesSchema,
+        barrierProperties : propertiesSchema,
+        gallery : gallerySchema
     },
     {
         timestamps : true

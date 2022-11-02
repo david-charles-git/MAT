@@ -12,61 +12,52 @@ import './PropertiesArea.scss';
 export default function PropertiesArea(props) {
     //properties
     const customClass = props.componentData.customClass; //string
-    const propertyGroup = props.componentData.propertyGroup ? props.componentData.propertyGroup : {}; //obj
-    const updatePropertyGroup = props.componentData.updatePropertyGroup; //any
+    const property = props.componentData.property; //obj
+    const updateProperty = props.componentData.updateProperty; //any
 
     //states
-    var [areaProperties, setAreaProperties] = useState(propertyGroup);
+    var [materialProperty, setMaterialProperty] = useState(property);
 
     //functions
-    const handlePropertyChange = (updatedProperties) => {
+    const handlePropertiesChange = (updatedProperties) => {
         if (updatedProperties.length > 0) {
-            const newProperties = areaProperties;
+            const newProperties = materialProperty; //obj
             
             newProperties.properties = updatedProperties;
 
-            setAreaProperties(newProperties);
-            updatePropertyGroup(newProperties);
+            setMaterialProperty(newProperties);
+            updateProperty(newProperties);
         }
     };
 
     //variables
     const componentClass = customClass ? "PropertiesArea " + customClass : "PropertiesArea"; //string
 
-    //effects
-        useEffect(() => {
-            setAreaProperties(propertyGroup);
-        }, [propertyGroup]);
+    return (
+        <div className={ componentClass }>
+            <div className="inner">
+                <h4>{ materialProperty.name }</h4>
+                <p>{ materialProperty.description }</p>
 
-    if (areaProperties.value) {
-        return (
-            <div className={ componentClass }>
-                <div className="inner">
-                    <h4>{ areaProperties.name }</h4>
-                    <p>{ areaProperties.description }</p>
-
-                    <div className='properties'>
-                        <div className='inner'>
-                            {
-                                areaProperties.properties.length > 0 ?
-                                    areaProperties.properties.map((property, key) => {
-                                        return <PropertyInput key={ key } componentData={ {
-                                            index : key,
-                                            propertyGroup : areaProperties.properties,
-                                            property : property,
-                                            handlePropertyChange : handlePropertyChange
-                                        } } />
-                                    })
-                                :
-                                    <></>
-                            }
-                        </div>
+                <div className='properties'>
+                    <div className='inner'>
+                        {
+                            materialProperty.properties.length > 0 ?
+                                materialProperty.properties.map((item, key) => {
+                                    return <PropertyInput key={ key } componentData={ {
+                                        index : key,
+                                        items : materialProperty.properties,
+                                        item : item,
+                                        updateItems : handlePropertiesChange
+                                    } } />
+                                })
+                            :
+                                <></>
+                        }
                     </div>
-    
                 </div>
+
             </div>
-        )
-    } else {
-        return <></>
-    }
+        </div>
+    )
 }

@@ -2,7 +2,7 @@
 	Project : Materiom
 	Author(s) : David Charles - AddMustard
 */
-
+ 
 export const physicalPropertiesDataStructure = { //obj
     name : "Physical Properties",
     value : "physicalProperties",
@@ -97,7 +97,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "g/cm3",
                     scale : ""
                 }
@@ -126,7 +126,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "cm",
                     scale : ""
                 }
@@ -167,7 +167,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "cm",
                     scale : ""
                 }
@@ -196,7 +196,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -231,7 +231,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "cm",
                     scale : ""
                 }
@@ -260,7 +260,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -307,7 +307,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "MPa",
                     scale : ""
                 }
@@ -336,7 +336,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "degC",
                     scale : ""
                 }
@@ -365,7 +365,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "degC",
                     scale : ""
                 }
@@ -394,7 +394,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -423,7 +423,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -452,7 +452,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -481,7 +481,7 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "%",
                     scale : ""
                 }
@@ -601,11 +601,11 @@ export const physicalPropertiesDataStructure = { //obj
                     maxValue : 0,
                     deviation : 0,
                     standardFormIndex : 0,
-                    value : null,
+                    value : "",
                     unit : "HR",
                     scale : "A"
                 }
             ]
           }
-    ],
+    ]
 };

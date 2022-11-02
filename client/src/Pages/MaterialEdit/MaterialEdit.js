@@ -3,18 +3,18 @@
 	Author(s) : David Charles - AddMustard
 */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams  } from "react-router-dom";
 import axios from "axios";
 import './MaterialEdit.scss';
 
-import { materialDataStructure, materialCoverImageDataStructure, materialDetailsDataStructure } from "../../DataStructures/material";
-import { physicalPropertiesDataStructure } from "../../DataStructures/physicalProperties";
+import { materialDataStructure } from "../../DataStructures/material";
 import Grid from "../../Components/Grid/Grid";
 import Carousel from "../../Components/Carousel/Carousel";
 import Button from "../../Components/Button/Button";
 import PropertiesArea from "../../Areas/PropertiesArea/PropertiesArea";
 import DetailsArea from "../../Areas/DetailsArea/DetailsArea";
+import CoverImageArea from "../../Areas/CoverImageArea/CoverImageArea";
 
 //exports
 export default function MaterialEdit(props) {
@@ -22,7 +22,8 @@ export default function MaterialEdit(props) {
 	const userName = props.pageData.userName; //string
 
 	//states
-    var [searchParams, setSearchParams] = useSearchParams();
+    var [searchParams, setSearchParams] = useSearchParams(); //any
+	var [material, setMaterial] = useState({}); //obj
 	var [materialName, setmaterialName] = useState(""); //sting
     var [materialRef, setMaterialRef] = useState(""); //string
 	var [materialForkedFromRef, setMaterialForkedFromRef] = useState(""); //string
@@ -32,15 +33,22 @@ export default function MaterialEdit(props) {
 	var [materialUpdetedDate, setMaterialUpdetedDate] = useState(""); //string
 	var [creatorFirstName, setCreatorFirstName] = useState(""); //string
 	var [creatorLastName, setCreatorLastName] = useState(""); //string
-	var [materialCoverImage, setMaterialCoverImage] = useState(materialCoverImageDataStructure); //obj
-	var [materialDetails, setMaterialDetails] = useState(materialDetailsDataStructure); //obj
-	var [materialPhysicalProperties, setMaterialPhysicalProperties] = useState(physicalPropertiesDataStructure); //obj
-
-	//ref
-	const coverImageSrcRef = useRef(); //any
+	var [materialCoverImage, setMaterialCoverImage] = useState({}); //obj
+	var [materialDetails, setMaterialDetails] = useState({}); //obj
+	var [materialIngredieants, setMaterialIngredients] = useState({}); //obj
+	var [materialMethods, setMaterialMethods] = useState({}); //obj
+	var [materialPhysicalProperties, setMaterialPhysicalProperties] = useState({}); //obj
+	var [materialMechanicalTensionProperties, setMaterialMechanicalTensionProperties] = useState({}); //obj
+	var [materialMechanicalCompressionProperties, setMaterialMechanicalCompressionProperties] = useState({}); //obj
+	var [materialChemicalProperties, setMaterialChemicalProperties] = useState({}); //obj
+	var [materialTermalProperties, setMaterialThermalProperties] = useState({}); //obj
+	var [materialOpticalProperties, setMaterialOpticalProperties] = useState({}); //obj
+	var [materialBarrierProperties, setMaterialBarrierProperties] = useState({}); //obj
+	var [materialGallery, setMaterialGallery] = useState({}); //obj
 
 	//functions
 	const navigate = useNavigate();
+
 	const handleSaveMaterial = () => {
 		const postTo = "http://localhost:5000/materials/update/" + materialRef; //string
 		var newMaterial = materialDataStructure; //obj
@@ -52,7 +60,11 @@ export default function MaterialEdit(props) {
 		newMaterial.published = materialPublished;
 		newMaterial.coverImage = materialCoverImage;
 		newMaterial.details = materialDetails;
+		newMaterial.ingredients = materialIngredieants;
+		newMaterial.methods = materialMethods;
 		newMaterial.physicalProperties = materialPhysicalProperties;
+
+		newMaterial.gallery = materialGallery;
 
 		axios.post(postTo, newMaterial)
 			.then((res) => { console.log("Material saved"); });
@@ -65,10 +77,14 @@ export default function MaterialEdit(props) {
 		newMaterial.ref = materialRef;
 		newMaterial.forkedFromRef = materialForkedFromRef;
 		newMaterial.creatorUserName = materialCreatorUserName;
-		newMaterial.published = true;
+		newMaterial.published = materialPublished;
 		newMaterial.coverImage = materialCoverImage;
 		newMaterial.details = materialDetails;
+		newMaterial.ingredients = materialIngredieants;
+		newMaterial.methods = materialMethods;
 		newMaterial.physicalProperties = materialPhysicalProperties;
+
+		newMaterial.gallery = materialGallery;
 		
 		setMaterialPublished(true);
 
@@ -85,17 +101,11 @@ export default function MaterialEdit(props) {
 
 		navigate("/");
 	};
+
 	const handleCoverImageChange = (updatedCoverImage) => {
-		var newCoverImage = materialCoverImageDataStructure;
-
-		newCoverImage.source = coverImageSrcRef.current.value;
-
-        if (true) { //font-end validation here
-            setMaterialCoverImage(newCoverImage);
-
-        } else {
-            //validation error handler here
-        }
+		if (Object.keys(updatedCoverImage).length > 0) {
+			setMaterialCoverImage(updatedCoverImage);
+		}
 	};
 	const handleDetailsChange = (updatedDetails) => {
 		if (Object.keys(updatedDetails).length > 0) {
@@ -114,53 +124,54 @@ export default function MaterialEdit(props) {
 	const materialEditClassName = materialPublished ? "MaterialEdit published" : "MaterialEdit"; //string
 
 	//Effects
-		//set material data
-		useEffect(() => { 
-			if (MaterialRef) {
-				const getURL = "http://localhost:5000/materials/findByRef/" + MaterialRef; //string
+	//set material data
+	useEffect(() => { 
+		if (MaterialRef) {
+			const getURL = "http://localhost:5000/materials/findByRef/" + MaterialRef; //string
 
-				axios.get(getURL)
-					.then((res) => {
-						const resData = res.data[0]; //obj
+			axios.get(getURL)
+				.then((res) => {
+					const resData = res.data[0]; //obj
 
-						if (resData) {
-							setmaterialName(resData.name);
-							setMaterialRef(resData.ref);
-							setMaterialForkedFromRef(resData.forkedFromRef);
-							setMaterialCreatorUserName(resData.creatorUserName);
-							setMaterialPublished(resData.published);
-							setMaterialCreationDate(resData.createdAt);
-							setMaterialUpdetedDate(resData.updatedAt);
+					if (resData) {
+						setMaterial(resData);
+						setmaterialName(resData.name);
+						setMaterialRef(resData.ref);
+						setMaterialForkedFromRef(resData.forkedFromRef);
+						setMaterialCreatorUserName(resData.creatorUserName);
+						setMaterialPublished(resData.published);
+						setMaterialCreationDate(resData.createdAt);
+						setMaterialUpdetedDate(resData.updatedAt);
 
-							setMaterialCoverImage(resData.coverImage);
-							setMaterialDetails(resData.details);
-							setMaterialPhysicalProperties(resData.physicalProperties);
-						}
-					});
-			}
-		}, [MaterialRef]);
+						setMaterialCoverImage(resData.coverImage);
+						setMaterialDetails(resData.details);
+						setMaterialPhysicalProperties(resData.physicalProperties);
+					}
+				});
+		}
+	}, [MaterialRef]);
 
-		//set user data
-		useEffect(() => {
-			if (materialCreatorUserName) {
-				const getURL = "http://localhost:5000/users/findByUserName/" + materialCreatorUserName; //string
+	//set user data
+	useEffect(() => {
+		if (materialCreatorUserName) {
+			const getURL = "http://localhost:5000/users/findByUserName/" + materialCreatorUserName; //string
 
-				axios.get(getURL)
-					.then((res) => {
-						const resData = res.data[0]; //obj
+			axios.get(getURL)
+				.then((res) => {
+					const resData = res.data[0]; //obj
 
-						if (resData) {
-							setCreatorFirstName(resData.firstName);
-							setCreatorLastName(resData.lastName);
-						}
+					if (resData) {
+						setCreatorFirstName(resData.firstName);
+						setCreatorLastName(resData.lastName);
+					}
 
-					});
-			}
-		}, [materialCreatorUserName]);
-
+				});
+		}
+	}, [materialCreatorUserName]);
+	
 	return (
 		<div className={ materialEditClassName }> 
-            <div className="inner">
+			<div className="inner">
 				<Grid componentData={ { customClass : "functionalButtonsContainer", numberOfColumns : 3 } } >
 					<Button componentData={ {
 						class : "functionalButton",
@@ -187,64 +198,63 @@ export default function MaterialEdit(props) {
 					} } />
 				</Grid>
 
-				<div className="coverImageContainer">
-					<div className="inner">
-						<h4>Cover Image</h4>
+				{
+					Object.keys(materialCoverImage).length > 0 ? 
+						<CoverImageArea componentData={{
+							customClass : "",
+							coverImage : materialCoverImage,
+							updateCoverImage : handleCoverImageChange
+						}} />
+					:
+						<></>
+				}
 
-						<input
-							ref={ coverImageSrcRef }
-							type="text"
-							value={ materialCoverImage.source }
-							placeholder="Cover Image Source"
-							onChange={ handleCoverImageChange }
-						/>
-					</div>
+				<Grid componentData={ { customClass : "infoContainer", numberOfColumns : 1 } } >
+					<h4>{ materialName }</h4>
 
-				</div>
+					<p>Created By: { creatorFirstName + " " + creatorLastName }</p>
 
-                <div className="infoContainer">
-					<div className="inner">
-						<h4>{ materialName }</h4>
+					<p>Date Created: { materialCreationDate }</p>
 
-						<p>Created By: { creatorFirstName + " " + creatorLastName }</p>
-						
-						<p>Date Created: { materialCreationDate }</p>
+					<p>Last Updated: { materialUpdetedDate }</p>
 
-						<p>Last Updated: { materialUpdetedDate }</p>
+					<p>REF: { materialRef }</p>
 
-						<p>REF: { materialRef }</p>
+					{
+						materialForkedFromRef ? 
+							<p>Forked From : { materialForkedFromRef }</p>
+						:
+							<></>
+					}
+				</Grid>
 
-						{
-							materialForkedFromRef ? 
-								<p>Forked From : { materialForkedFromRef }</p>
-							:
-								<></>
-						}
-						
-					</div>
-				</div>
-
-				<DetailsArea componentData={{
-					customClass : "",
-					details : materialDetails,
-					updateDetails : handleDetailsChange
-				}} />
-
+				{
+					Object.keys(materialDetails).length > 0 ? 
+						<DetailsArea componentData={{
+							customClass : "",
+							details : materialDetails,
+							updateDetails : handleDetailsChange
+						}} />
+					:	
+						<></>
+				}
+				
 				<div className="ingredientsContainer">
 
 				</div>
 
-				<div className="propertiesContainer">
-					<div className="inner">
-						<PropertiesArea componentData={{
-							customClass : "physicalProperties",
-							propertyGroup : materialPhysicalProperties,
-							updatePropertyGroup : handlePhysicalPropertiesChange
-						}} />
-
-						
-					</div>
-				</div>
+				<Grid componentData={ { customClass : "propertiesContainer", numberOfColumns : 1 } } >
+					{
+						Object.keys(materialPhysicalProperties).length > 0 ?
+							<PropertiesArea componentData={{
+								customClass : "physicalProperties",
+								property : materialPhysicalProperties,
+								updateProperty : handlePhysicalPropertiesChange
+							}} />
+						:
+							<></>
+					}
+				</Grid>
 
 				<div className="methodContainer">
 
@@ -255,7 +265,7 @@ export default function MaterialEdit(props) {
 						<div className="item" />
 					</Carousel>
 				</div>
-            </div>		
+			</div>		
 		</div>
-	);
+	)
 }

@@ -27,28 +27,28 @@ export default function MaterialPortal(props) {
 	var introContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum condimentum id libero vitae vehicula. Donec interdum nec purus eget condimentum. Nulla et porttitor turpis. Ut suscipit dolor eget sapien egestas mattis. Cras vehicula efficitur sem, id luctus arcu lobortis ut. Integer at laoreet massa. Quisque vitae nibh metus. Quisque pharetra porttitor arcu, eget mollis lectus dignissim id. Etiam eget nunc dignissim, scelerisque ligula et, sollicitudin nulla. Aliquam erat volutpat. Nulla efficitur blandit dui, nec auctor risus interdum a. Mauris aliquet ullamcorper massa, eget mattis mauris. Cras fringilla id risus quis fringilla. Vestibulum scelerisque blandit dolor non congue. Etiam et nisl vitae neque rutrum accumsan sit amet sed nisl."; //string
 
 	//Effects
-		//get user contributions
-		useEffect(() => {
-			axios.get("http://localhost:5000/materials/findByCreatorUserName/" + userName)
-				.then((res) => {
-					setContributions(res.data);
+	//get user contributions
+	useEffect(() => {
+		axios.get("http://localhost:5000/materials/findByCreatorUserName/" + userName)
+			.then((res) => {
+				setContributions(res.data);
 
-				})
-		}, [userName]);
+			})
+	}, [userName]);
 
-		//get user first name
-		useEffect(() => {
-			axios.get("http://localhost:5000/users/findByUserName/" + userName)
-				.then((res) => {
-					const resData = res.data[0]; //obj
+	//get user names
+	useEffect(() => {
+		axios.get("http://localhost:5000/users/findByUserName/" + userName)
+			.then((res) => {
+				const resData = res.data[0]; //obj
 
-					if (resData) {
-						setFirstName(resData.firstName);
-						setLastName(resData.lastName);
-					}
+				if (resData) {
+					setFirstName(resData.firstName);
+					setLastName(resData.lastName);
+				}
 
-				})
-		}, [userName]);
+			})
+	}, [userName]);
 
 	return (
 		<div className="MaterialPortal"> 

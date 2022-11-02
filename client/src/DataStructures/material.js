@@ -3,16 +3,25 @@
 	Author(s) : David Charles - AddMustard
 */
 
-import { toolDataStrcuture } from "./tool";
+import { toolDataStrcuture } from "./tool"; 
 import { processDataStrcuture } from "./process";
+import { ingredientsDataStructure } from "./ingredients";
+import { methodsDataStructure } from "./methods";
 import { physicalPropertiesDataStructure } from "./physicalProperties";
+import { mechanicalTensionPropertiesDataStructure } from "./mechanicalTensionProperties";
+import { mechanicalCompressionPropertiesDataStructure } from "./mechanicalCompressionProperties";
+import { chemicalPropertiesDataStructure } from "./chemicalProperties";
+import { thermalPropertiesDataStructure } from "./thermalProperties";
+import { opticalPropertiesDataStructure } from "./opticalProperties";
+import { barrierPropertiesDataStructure } from "./barrierProperties";
+import { galleryDataStructure } from "./gallery";
 
 export const materialCoverImageDataStructure = { //obj
     source : ""
 };
 export const materialDetailsDataStructure = { //obj
     description : "",
-    authors : [],
+    authors : [ "" ],
     license : "",
     sources : [ { name : "", source : "" } ],
     difficulty : 0,
@@ -29,5 +38,14 @@ export const materialDataStructure = { //obj
 
     coverImage : materialCoverImageDataStructure,
     details : materialDetailsDataStructure,
-    physicalProperties : physicalPropertiesDataStructure
+    ingredients : ingredientsDataStructure,
+    methods : methodsDataStructure,
+    physicalProperties : physicalPropertiesDataStructure,
+    mechanicalTensionProperties : mechanicalTensionPropertiesDataStructure,
+    mechanicalCompressionProperties : mechanicalCompressionPropertiesDataStructure,
+    chemicalProperties : chemicalPropertiesDataStructure,
+    thermalProperties : thermalPropertiesDataStructure,
+    opticalProperties : opticalPropertiesDataStructure,
+    barrierProperties : barrierPropertiesDataStructure,
+    gallery : galleryDataStructure
 };

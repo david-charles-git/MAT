@@ -118,11 +118,11 @@ export default function NumberInput(props) {
 	return (
 		<div className={ componentClass }>
             <div className="inner">
-                <input ref={ numberValueRef } type="hidden" value={ numberValue } />
-                <input ref={ numberMinValueRef } type="hidden" value={ numberMinValue ? numberMinValue : 0 } />
-                <input ref={ numberMaxValueRef } type="hidden" value={ numberMaxValue ? numberMaxValue : 0 } />
-                <input ref={ deviationRef } type="hidden" value={ deviation ? deviation : 0 } />
-                <input ref={ standardFormIndexRef } type="hidden" value={ standardFormIndex ? standardFormIndex : 0 } />
+                <input ref={ numberValueRef } type="hidden" value={ numberValue || "" } />
+                <input ref={ numberMinValueRef } type="hidden" value={ numberMinValue || 0 } />
+                <input ref={ numberMaxValueRef } type="hidden" value={ numberMaxValue || 0 } />
+                <input ref={ deviationRef } type="hidden" value={ deviation || 0 } />
+                <input ref={ standardFormIndexRef } type="hidden" value={ standardFormIndex || 0 } />
 
                 <div className="isRangeContainer">
                     <p>Value is range?</p>
@@ -135,7 +135,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Min"
-                                value={ numberMinValue ? numberMinValue : 0 }
+                                value={ numberMinValue || 0 }
                                 onChange={ handleNumberMinValueOnChange }
                             />
 
@@ -144,7 +144,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Max"
-                                value={ numberMaxValue ? numberMaxValue : 0 }
+                                value={ numberMaxValue || 0 }
                                 onChange={ handleNumberMaxValueOnChange }
                             />
                         </div>
@@ -154,7 +154,7 @@ export default function NumberInput(props) {
                             <input
                                 type="number"
                                 placeholder="Enter Number"
-                                value={ numberValue ? numberValue : 0 }
+                                value={ numberValue || 0 }
                                 onChange={ handleNumberValueOnChange }
                             />
                         </div>
@@ -166,7 +166,7 @@ export default function NumberInput(props) {
                     <input
                         type="number"
                         placeholder="Index"
-                        value={ standardFormIndex ? standardFormIndex : 0 }
+                        value={ standardFormIndex || 0 }
                         onChange={ handleStandardFormIndexOnChange }
                     />
                 </div>
@@ -177,7 +177,7 @@ export default function NumberInput(props) {
                     <input
                         type="number"
                         placeholder="Deviation"
-                        value={ deviation ? deviation : 0 }
+                        value={ deviation || 0 }
                         onChange={ handleDeviationOnChange }
                     />
                 </div>

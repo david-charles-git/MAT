@@ -14,18 +14,18 @@ router.route("/add").post((req, res) => {
     const creatorUserName = req.body.creatorUserName; // string
     const published = req.body.published; //bool
 
-    const coverImageSrc = req.body.coverImage.source; //string
-
-    const description = req.body.details.description; //string
-    const authors = req.body.details.authors; //Array<string>
-    const license = req.body.details.license; //string
-    const sources = req.body.details.sources; //Array<obj>    
-    const difficulty = req.body.details.difficulty; //number
-    const prepTime = req.body.details.prepTime; //number
-    const tools = req.body.details.tools; //Array<obj>
-    const processes = req.body.details.processes; //Array<obj>
-
-    const physicalProperties = req.body.physicalProperties; //Array<obj>
+    const coverImage = req.body.coverImage; //obj
+    const details = req.body.details; //obj
+    const ingredients = req.body.ingredients; //obj
+    const methods = req.body.methods; //obj
+    const physicalProperties = req.body.physicalProperties; //obj
+    const mechanicalTensionProperties = req.body.mechanicalTensionProperties; //obj
+    const mechanicalCompressionProperties = req.body.mechanicalCompressionProperties; //obj
+    const chemicalProperties = req.body.chemicalProperties; //obj
+    const thermalProperties = req.body.thermalProperties; //obj
+    const opticalProperties = req.body.opticalProperties; //obj
+    const barrierProperties = req.body.barrierProperties; //obj
+    const gallery = req.body.gallery; //obj
 
     const newMaterial = new Material( //any
         { 
@@ -35,20 +35,18 @@ router.route("/add").post((req, res) => {
             creatorUserName : creatorUserName,
             published : published,
 
-            coverImage : {
-                source : coverImageSrc
-            },
-            details : {
-                description : description,
-                authors : authors,  
-                license : license,
-                sources : sources,
-                difficulty : difficulty,
-                prepTime : prepTime,
-                tools : tools,
-                processes : processes
-            },
-            physicalProperties : physicalProperties
+            coverImage : coverImage,
+            details : details,
+            ingredients : ingredients,
+            methods : methods,
+            physicalProperties : physicalProperties,
+            mechanicalTensionProperties : mechanicalTensionProperties,
+            mechanicalCompressionProperties : mechanicalCompressionProperties,
+            chemicalProperties : chemicalProperties,
+            thermalProperties : thermalProperties,
+            opticalProperties : opticalProperties,
+            barrierProperties : barrierProperties,
+            gallery : gallery
         }
     );
 
@@ -107,17 +105,18 @@ router.route("/update/:ref").post((req, res) => {
     const creatorUserName = req.body.creatorUserName; // string
     const published = req.body.published; //bool
 
-    const coverImageSrc = req.body.coverImage.source; //string
-    const description = req.body.details.description; //string
-    const authors = req.body.details.authors; //Array<string>
-    const license = req.body.details.license; //string
-    const sources = req.body.details.sources; //Array<string>
-    const difficulty = req.body.details.difficulty; //number
-    const prepTime = req.body.details.prepTime; //number
-    const tools = req.body.details.tools; //Array<obj>
-    const processes = req.body.details.processes; //Array<obj>
-
-    const physicalProperties = req.body.physicalProperties; //Array<obj>
+    const coverImage = req.body.coverImage; //obj
+    const details = req.body.details; //obj
+    const ingredients = req.body.ingredients; //obj
+    const methods = req.body.methods; //obj
+    const physicalProperties = req.body.physicalProperties; //obj
+    const mechanicalTensionProperties = req.body.mechanicalTensionProperties; //obj
+    const mechanicalCompressionProperties = req.body.mechanicalCompressionProperties; //obj
+    const chemicalProperties = req.body.chemicalProperties; //obj
+    const thermalProperties = req.body.thermalProperties; //obj
+    const opticalProperties = req.body.opticalProperties; //obj
+    const barrierProperties = req.body.barrierProperties; //obj
+    const gallery = req.body.gallery; //obj
 
     const query = { ref : req.params.ref }; //obj
     const newMaterial = { //any
@@ -127,20 +126,18 @@ router.route("/update/:ref").post((req, res) => {
         creatorUserName : creatorUserName, 
         published : published,
 
-        coverImage : {
-            source : coverImageSrc
-        },
-        details : {
-            description : description,
-            authors : authors,            
-            license : license,            
-            sources : sources,            
-            difficulty : difficulty,
-            prepTime : prepTime,
-            tools : tools,
-            processes : processes
-        },
-        physicalProperties : physicalProperties
+        coverImage : coverImage,
+        details : details,
+        ingredients : ingredients,
+        methods : methods,
+        physicalProperties : physicalProperties,
+        mechanicalTensionProperties : mechanicalTensionProperties,
+        mechanicalCompressionProperties : mechanicalCompressionProperties,
+        chemicalProperties : chemicalProperties,
+        thermalProperties : thermalProperties,
+        opticalProperties : opticalProperties,
+        barrierProperties : barrierProperties,
+        gallery : gallery
     };
 
     Material.findOneAndUpdate(query, newMaterial, (error, data) => {});

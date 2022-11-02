@@ -16,9 +16,9 @@ import './PropertyInput.scss';
 export default function PropertyInput(props) {
     //property
     const propertyIndex = props.componentData.index; //number
-    const propertyGroup = props.componentData.propertyGroup; //Array<obj>
-    const property = props.componentData.property; //obj
-    const handlePropertyChange = props.componentData.handlePropertyChange; //any
+    const propertyGroup = props.componentData.items; //Array<obj>
+    const property = props.componentData.item; //obj
+    const handlePropertyChange = props.componentData.updateItems; //any
 
     const propertyName = property.name; //string
     const propertyValue = property.value; //string

@@ -41,6 +41,7 @@ export default function MaterialCreate(props) {
     };
     const handleCreateMaterial_new = () => {
         const navigationTo = "/materials/edit/?materialRef=" + materialRef; //string
+        console.log(materialRef);
         const newMaterial = materialDataStructure; //obj
 
         newMaterial.name = materialName;
@@ -49,9 +50,7 @@ export default function MaterialCreate(props) {
         newMaterial.details.authors = [ userName ];
 
 		axios.post("http://localhost:5000/materials/add", newMaterial)
-			.then((res) => { console.log("Material Created - edit"); });
-        
-        navigate(navigationTo);
+			.then((res) => { console.log("Material Created - edit"); navigate(navigationTo); });
     };
     const handleCreateMaterial_fork = () => {
         const navigationTo = "/materials/fork/?materialRef=" + materialRef; //string

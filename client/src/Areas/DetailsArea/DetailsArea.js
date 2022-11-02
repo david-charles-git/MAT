@@ -8,7 +8,6 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './DetailsArea.scss';
 
-import { materialDetailsDataStructure } from "../../DataStructures/material";
 import Button from '../../Components/Button/Button';
 import OptionInput from '../../Components/OptionInput/OptionInput';
 
@@ -20,15 +19,15 @@ export default function DetailsArea(props) {
     const updateDetails = props.componentData.updateDetails; //any
 
     //states
-    var [materialDetails, setMaterialDetails] = useState(details || materialDetailsDataStructure); //obj
-    var [materialAuthors, setMaterialAuthors] = useState(materialDetails.authors) //Array<string>
-    var [materialDescription, setMaterialDescription] = useState(materialDetails.description); //string
-    var [materialLicense, setMaterialLicense] = useState(materialDetails.license); //string
-    var [materialSources, setMaterialSources] = useState(materialDetails.sources) //Array<string>
-    var [materialDifficulty, setMaterialDifficulty] = useState(materialDetails.difficulty) //number
-    var [materialPrepTime, setMaterialPrepTime] = useState(materialDetails.prepTime); //number
-    var [materialTools, setMaterialTools] = useState(materialDetails.tools); //Array<obj>
-    var [materialProcesses, setMaterialProcesses] = useState(materialDetails.processes) //Array<obj>
+    var [materialDetails, setMaterialDetails] = useState(details); //obj
+    var [materialAuthors, setMaterialAuthors] = useState(details.authors) //Array<string>
+    var [materialDescription, setMaterialDescription] = useState(details.description); //string
+    var [materialLicense, setMaterialLicense] = useState(details.license); //string
+    var [materialSources, setMaterialSources] = useState(details.sources) //Array<string>
+    var [materialDifficulty, setMaterialDifficulty] = useState(details.difficulty) //number
+    var [materialPrepTime, setMaterialPrepTime] = useState(details.prepTime); //number
+    var [materialTools, setMaterialTools] = useState(details.tools); //Array<obj>
+    var [materialProcesses, setMaterialProcesses] = useState(details.processes) //Array<obj>
 
     var [tools, setTools] = useState([]); //Array<obj>
 	var [processes, setProcesses] = useState([]); //Array<obj>
@@ -36,54 +35,43 @@ export default function DetailsArea(props) {
     //refs
 	const descriptionRef = useRef(); //any
 	const licenseRef = useRef(); //any
+    const sourcesRef = useRef(); //any
 	const prepTimeRef = useRef(); //any
 
     //functions
-    const handleDetailsChange = () => {
-		var newDetails = materialDetailsDataStructure;
-
-		newDetails.description = materialDescription;
-		newDetails.authors = materialAuthors;
-		newDetails.license = materialLicense;
-		newDetails.sources = materialSources;
-		newDetails.difficulty = materialDifficulty;
-		newDetails.prepTime = materialPrepTime;
-		newDetails.tools = materialTools;
-		newDetails.processes = materialProcesses;
+    const handleDescriptionChange = () => {
+        const newDescription = descriptionRef.current.value; //string
 
         if (true) { //font-end validation here
+            var newDetails = materialDetails; //obj
+    
+            newDetails.description = newDescription;
+
+            setMaterialDescription(newDescription);
             setMaterialDetails(newDetails);
             updateDetails(newDetails);
 
         } else {
             //validation error handler here
         }
-
-	};
-    const handleDescriptionChange = () => {
-        const newDescription = descriptionRef.current.value;
-
-        if (true) { //font-end validation here
-            setMaterialDescription(newDescription);
-            handleDetailsChange();
-
-        } else {
-            //validation error handler here
-        }
     };
     const handleAuthorChange = (event) => {
-        const elmt = event.currentTarget || event.target;
+        const elmt = event.currentTarget || event.target; //any
 
         if (elmt) {			
             const elmtValue = elmt.value; //string
 
             if (true) { //font-end validation here
-                const authorArray = [...materialAuthors]; //Array<string>
+                var newDetails = materialDetails; //obj
+                var newAuthors = [...materialAuthors]; //Array<string>
                 const elmtIndex = elmt.getAttribute("index"); //number
                 
-                authorArray[elmtIndex] = elmtValue;
-                setMaterialAuthors(authorArray);
-                handleDetailsChange();
+                newAuthors[elmtIndex] = elmtValue;
+                newDetails.authors = newAuthors;
+
+                setMaterialAuthors(newAuthors);
+                setMaterialDetails(newDetails);
+                updateDetails(newDetails);
 
             } else {
                 //validation error handler here
@@ -102,36 +90,45 @@ export default function DetailsArea(props) {
         }
     };
     const handleLicenseChange = () => {
-        const newLicense = licenseRef.current.value;
+        const newLicense = licenseRef.current.value; //string
 
         if (true) { //font-end validation here
+            var newDetails = materialDetails; //obj
+
+            newDetails.license = newLicense;
+
             setMaterialLicense(newLicense);
-            handleDetailsChange();
+            setMaterialDetails(newDetails);
+            updateDetails(newDetails);
 
         } else {
             //validation error handler here
         }
     };
     const handleSourceChange = (event) => {
-        const elmt = event.currentTarget || event.target;
+        const elmt = event.currentTarget || event.target; //any
 
         if (elmt) {		
-            const elmtParent = elmt.parentElement;
+            const elmtParent = elmt.parentElement; //any
             
             if (elmtParent.classList.contains("sourceInputs")) {
-                const inputs = elmtParent.getElementsByTagName("INPUT");
+                const inputs = elmtParent.getElementsByTagName("INPUT"); //Array<any>
                 const inputValues = { //obj
                     name : inputs[0].value,
                     source : inputs[1].value
                 };
 
                 if (true) { //font-end validation here
-                    const sourceArray = [...materialSources]; //Array<obj>
+                    var newDetails = materialDetails; //obj
+                    var newSources = [...materialSources]; //Array<obj>
                     const elmtIndex = elmtParent.getAttribute("index"); //number
                     
-                    sourceArray[elmtIndex] = inputValues;
-                    setMaterialSources(sourceArray);
-                    handleDetailsChange();
+                    newSources[elmtIndex] = inputValues;
+                    newDetails.sources = newSources;
+
+                    setMaterialSources(newSources);
+                    setMaterialDetails(newDetails);
+                    updateDetails(newDetails);
 
                 } else {
                     //validation error handler here
@@ -154,11 +151,16 @@ export default function DetailsArea(props) {
         const elmt = event.currentTarget || event.target; //any
 
         if (elmt) {
-            const elmtIndex = parseInt(elmt.getAttribute("index")); //number
+            const newDifficulty = parseInt(elmt.getAttribute("index")); //number
 
             if(true){ //handle validation here
-                setMaterialDifficulty(elmtIndex);
-                handleDetailsChange();
+                var newDetails = materialDetails; //obj
+        
+                newDetails.difficulty = newDifficulty;
+
+                setMaterialDifficulty(newDifficulty);
+                setMaterialDetails(newDetails);
+                updateDetails(newDetails);
 
             } else {
                 //do error function
@@ -167,11 +169,17 @@ export default function DetailsArea(props) {
         }
     };
     const handlePrepTimeChange = () => {
-        const newMaterialPrepTime = prepTimeRef.current.value;
+        const newPrepTime = parseInt(prepTimeRef.current.value); //number
 
         if (true) { //font-end validation here
-            setMaterialPrepTime(newMaterialPrepTime);
-            handleDetailsChange();
+            var newDetails = materialDetails; //obj
+    
+            newDetails.prepTime = newPrepTime;
+
+            setMaterialPrepTime(newPrepTime);
+            setMaterialDetails(newDetails);
+            updateDetails(newDetails);
+
 
         } else {
             //validation error handler here
@@ -179,10 +187,11 @@ export default function DetailsArea(props) {
     };
     const handleToolChange = (dataObj) => {
         if (dataObj) {
-            const dataIndex = dataObj.index;
+            const dataIndex = dataObj.index; //number
 
             if (materialTools[dataIndex]) {
-                const newMaterialTools = materialTools; //Array<obj>
+                var newDetails = materialDetails; //obj
+                var newTools = materialTools; //Array<obj>
                 const newTool = { //obj
                     name : dataObj.name,
                     ref : dataObj.ref,
@@ -190,10 +199,12 @@ export default function DetailsArea(props) {
                     link : dataObj.link
                 };
 
-                newMaterialTools[dataIndex] = newTool;
+                newTools[dataIndex] = newTool;
+                newDetails.tools = newTools;
 
-                setMaterialTools(newMaterialTools);
-                handleDetailsChange();
+                setMaterialTools(newTools);
+                setMaterialDetails(newDetails);
+                updateDetails(newDetails);
             }
         }
     };
@@ -217,10 +228,11 @@ export default function DetailsArea(props) {
     };
     const handleProcessChange = (dataObj) => {
         if (dataObj) {
-            const dataIndex = dataObj.index;
+            const dataIndex = dataObj.index; //number
 
             if (materialProcesses[dataIndex]) {
-                const newMaterialProcesses = materialProcesses; //Array<obj>
+                var newDetails = materialDetails; //obj
+                var newProcesses = materialProcesses; //Array<obj>
                 const newProcess = { //obj
                     name : dataObj.name,
                     ref : dataObj.ref,
@@ -228,16 +240,18 @@ export default function DetailsArea(props) {
                     link : dataObj.link
                 };
 
-                newMaterialProcesses[dataIndex] = newProcess;
+                newProcesses[dataIndex] = newProcess;
+                newDetails.processes = newProcesses;
 
-                setMaterialProcesses(newMaterialProcesses);
-                handleDetailsChange();
+                setMaterialProcesses(newProcesses);
+                setMaterialDetails(newDetails);
+                updateDetails(newDetails);
             }
         }
     };
     const handleAddProcess = () => {
         var processesArray = [...materialProcesses]; //Arra<obj>
-        var process = {
+        var process = { //obj
             name : "",
             ref : "",
             description : "",
@@ -259,6 +273,7 @@ export default function DetailsArea(props) {
     const difficultyOptions = [0, 1, 2, 3, 4]; //Array<number>
 
     //Effects
+    //get tools list
     useEffect(() => {
         const getURL = "http://localhost:5000/tools/"; //string
         
@@ -312,21 +327,18 @@ export default function DetailsArea(props) {
 
                         <div className="authorContainer">
                             {
-                                materialAuthors.length > 0 ?
-                                    materialAuthors.map((author, key) => {
-                                        return (
-                                            <input
-                                                key={ key }
-                                                index={ key }
-                                                type="text"
-                                                value={ author }
-                                                placeholder="Enter Author"
-                                                onChange={ handleAuthorChange }
-                                            />
-                                        )
-                                    })
-                                :
-                                    <></>
+                                materialAuthors.map((author, key) => {
+                                    return (
+                                        <input
+                                            key={ key }
+                                            index={ key }
+                                            type="text"
+                                            value={ author }
+                                            placeholder="Enter Author"
+                                            onChange={ handleAuthorChange }
+                                        />
+                                    )
+                                })
                             }
 
                             <div>
@@ -362,12 +374,13 @@ export default function DetailsArea(props) {
                     <div>
                         <h6>Source(s)</h6>
 
-                        <div className="sourceContainer">
+                        <div ref={ sourcesRef } className="sourceContainer">
                             {
                                 materialSources.map((source, key) => {
                                     return (
                                         <div className="sourceInputs" key={ key } index={ key }>
                                             <input
+                                                className='name'
                                                 type="text"
                                                 value={ source.name }
                                                 placeholder="Enter Source Name"
@@ -375,6 +388,7 @@ export default function DetailsArea(props) {
                                             />
 
                                             <input
+                                                className='source'
                                                 type="text"
                                                 value={ source.source }
                                                 placeholder="Enter Source Link"
