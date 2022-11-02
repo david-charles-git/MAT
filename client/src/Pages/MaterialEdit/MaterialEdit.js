@@ -16,7 +16,6 @@ import PropertiesArea from "../../Areas/PropertiesArea/PropertiesArea";
 import DetailsArea from "../../Areas/DetailsArea/DetailsArea";
 import CoverImageArea from "../../Areas/CoverImageArea/CoverImageArea";
 
-//exports
 export default function MaterialEdit(props) {
 	//properties
 	const userName = props.pageData.userName; //string
@@ -33,6 +32,7 @@ export default function MaterialEdit(props) {
 	var [materialUpdetedDate, setMaterialUpdetedDate] = useState(""); //string
 	var [creatorFirstName, setCreatorFirstName] = useState(""); //string
 	var [creatorLastName, setCreatorLastName] = useState(""); //string
+
 	var [materialCoverImage, setMaterialCoverImage] = useState({}); //obj
 	var [materialDetails, setMaterialDetails] = useState({}); //obj
 	var [materialIngredieants, setMaterialIngredients] = useState({}); //obj
@@ -41,7 +41,7 @@ export default function MaterialEdit(props) {
 	var [materialMechanicalTensionProperties, setMaterialMechanicalTensionProperties] = useState({}); //obj
 	var [materialMechanicalCompressionProperties, setMaterialMechanicalCompressionProperties] = useState({}); //obj
 	var [materialChemicalProperties, setMaterialChemicalProperties] = useState({}); //obj
-	var [materialTermalProperties, setMaterialThermalProperties] = useState({}); //obj
+	var [materialThermalProperties, setMaterialThermalProperties] = useState({}); //obj
 	var [materialOpticalProperties, setMaterialOpticalProperties] = useState({}); //obj
 	var [materialBarrierProperties, setMaterialBarrierProperties] = useState({}); //obj
 	var [materialGallery, setMaterialGallery] = useState({}); //obj
@@ -58,16 +58,23 @@ export default function MaterialEdit(props) {
 		newMaterial.forkedFromRef = materialForkedFromRef;
 		newMaterial.creatorUserName = materialCreatorUserName;
 		newMaterial.published = materialPublished;
+
 		newMaterial.coverImage = materialCoverImage;
 		newMaterial.details = materialDetails;
 		newMaterial.ingredients = materialIngredieants;
 		newMaterial.methods = materialMethods;
 		newMaterial.physicalProperties = materialPhysicalProperties;
-
+		newMaterial.mechanicalTensionProperties = materialMechanicalTensionProperties;
+		newMaterial.mechanicalCompressionProperties = materialMechanicalCompressionProperties;
+		newMaterial.chemicalProperties = materialChemicalProperties;
+		newMaterial.thermalProperties = materialThermalProperties;
+		newMaterial.opticalProperties = materialOpticalProperties;
+		newMaterial.barrierProperties = materialBarrierProperties;
 		newMaterial.gallery = materialGallery;
 
 		axios.post(postTo, newMaterial)
-			.then((res) => { console.log("Material saved"); });
+			.then((res) => { console.log("Material Saved"); })
+			.catch((error) => { console.log(error); });
 	};
 	const handlePublishMaterial = () => {
 		const postTo = "http://localhost:5000/materials/update/" + materialRef; //string
@@ -77,29 +84,32 @@ export default function MaterialEdit(props) {
 		newMaterial.ref = materialRef;
 		newMaterial.forkedFromRef = materialForkedFromRef;
 		newMaterial.creatorUserName = materialCreatorUserName;
-		newMaterial.published = materialPublished;
+		newMaterial.published = true;
+
 		newMaterial.coverImage = materialCoverImage;
 		newMaterial.details = materialDetails;
 		newMaterial.ingredients = materialIngredieants;
 		newMaterial.methods = materialMethods;
 		newMaterial.physicalProperties = materialPhysicalProperties;
-
+		newMaterial.mechanicalTensionProperties = materialMechanicalTensionProperties;
+		newMaterial.mechanicalCompressionProperties = materialMechanicalCompressionProperties;
+		newMaterial.chemicalProperties = materialChemicalProperties;
+		newMaterial.thermalProperties = materialThermalProperties;
+		newMaterial.opticalProperties = materialOpticalProperties;
+		newMaterial.barrierProperties = materialBarrierProperties;
 		newMaterial.gallery = materialGallery;
 		
 		setMaterialPublished(true);
 
 		axios.post(postTo, newMaterial)
-			.then((res) => { console.log("Material Published"); });
-
-		navigate("/");
+			.then((res) => { console.log("Material Published"); navigate("/"); })
+			.catch((error) => { console.log(error); });
 	};
 	const handleDeleteMaterial = () => {
 		const postTo = "http://localhost:5000/materials/" + materialRef; //string
 
 		axios.delete(postTo)
-			.then((res) => { console.log("Material Deleted"); });
-
-		navigate("/");
+			.then((res) => { console.log("Material Deleted"); navigate("/"); });
 	};
 
 	const handleCoverImageChange = (updatedCoverImage) => {
@@ -117,7 +127,6 @@ export default function MaterialEdit(props) {
 			setMaterialPhysicalProperties(updatedPhysicalProperties);
 		}
 	};
-	
 
 	//variables
     const MaterialRef = searchParams.get("materialRef"); //string
@@ -126,7 +135,6 @@ export default function MaterialEdit(props) {
 	//Effects
 	//set material data
 	useEffect(() => { 
-		if (MaterialRef) {
 			const getURL = "http://localhost:5000/materials/findByRef/" + MaterialRef; //string
 
 			axios.get(getURL)
@@ -145,12 +153,20 @@ export default function MaterialEdit(props) {
 
 						setMaterialCoverImage(resData.coverImage);
 						setMaterialDetails(resData.details);
+						setMaterialIngredients(resData.ingredients);
+						setMaterialMethods(resData.methods);
 						setMaterialPhysicalProperties(resData.physicalProperties);
+						setMaterialMechanicalTensionProperties(resData.mechanicalTensionProperties);
+						setMaterialMechanicalCompressionProperties(resData.mechanicalCompressionProperties);
+						setMaterialChemicalProperties(resData.chemicalProperties);
+						setMaterialThermalProperties(resData.thermalProperties);
+						setMaterialOpticalProperties(resData.opticalProperties);
+						setMaterialBarrierProperties(resData.barrierProperties);
+						setMaterialGallery(resData.gallery);
 					}
 				});
-		}
 	}, [MaterialRef]);
-
+	
 	//set user data
 	useEffect(() => {
 		if (materialCreatorUserName) {

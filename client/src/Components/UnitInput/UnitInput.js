@@ -5,7 +5,7 @@
 
 //imports
 import { useState } from "react";
-import SelectDropDown from "../SelectDropDown/SelectDropDown";
+import OptionInput from "../OptionInput/OptionInput";
 import './UnitInput.scss';
 
 //exports
@@ -18,7 +18,14 @@ export default function UnitInput(props) {
     const updateItem = props.componentData.updateItem; //any
 
     //states
-    var [item, setItem] = useState(unitItem);
+    var [item, setItem] = useState(unitItem); //obj
+
+    //functions
+    const handleUnitChange = (dataObj) => {
+        if (dataObj) {
+            console.log(dataObj);
+        }
+    };
 
     //variables
     const componentClass = "UnitInput"; //string
@@ -30,7 +37,12 @@ export default function UnitInput(props) {
                     <p>Unit</p>
 
                     <div className="inputContainer">
-                        <SelectDropDown componentData={ { dropDownOptions : units, selectedOption : item.value } } />
+                        <OptionInput componentData={{
+                            optionIndex : 0, 
+                            item : unitItem,
+                            options : units,
+                            updateSelectedOption : handleUnitChange
+                        }} />
                     </div>
                 </div>
             </div>

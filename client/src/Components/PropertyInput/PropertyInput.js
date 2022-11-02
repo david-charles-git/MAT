@@ -25,13 +25,13 @@ export default function PropertyInput(props) {
     const propertyDescription = property.description; //string
     const propertyType = property.type; //string
     const propertyAllowMultipleItems = property.allowMultipleItems; //bool
-    const propertyOptions = property.options ? property.options : []; //Array<obj>
-    const propertyUnits = property.units ? property.units : []; //Array<obj>
-    const propertyScales = property.scales ? property.scales : []; //Array<obj>
-    const propertyItems = property.items ? property.items : []; //Array<obj>
+    const propertyOptions = property.options; //Array<obj>
+    const propertyUnits = property.units; //Array<obj>
+    const propertyScales = property.scales; //Array<obj>
+    const propertyItems = property.items; //Array<obj>
 
     //states
-    var [inputPropertyItems, setInputPropertyitems] = useState([]); //Array<obj>
+    var [inputPropertyItems, setInputPropertyitems] = useState(propertyItems); //Array<obj>
 
     //functions
     const generateBodyClass = () => {
@@ -49,7 +49,7 @@ export default function PropertyInput(props) {
     };
     const handlePropertyUpdate = (newItems) => {
         if (newItems.length > 0 && propertyGroup[propertyIndex]) {
-            var newPropertyGroup = propertyGroup;
+            var newPropertyGroup = propertyGroup; //Array<obj>
     
             newPropertyGroup[propertyIndex].items = newItems;
             setInputPropertyitems(newItems);
@@ -59,11 +59,6 @@ export default function PropertyInput(props) {
 
     //variables
     const componentClass = "PropertyInput"; //string
-
-    //Effects
-        useEffect(() => {
-            setInputPropertyitems(propertyItems);
-        }, []);
     
     return (
         <div className={ componentClass }>
@@ -71,7 +66,7 @@ export default function PropertyInput(props) {
                 <div className="head">
                     { propertyName ? <h6>{ propertyName }</h6> : <></> }
 
-                    <InfoIconWithPopUp componentData={ { information : propertyDescription, reference : null } } />
+                    <InfoIconWithPopUp componentData={ { information : propertyDescription, reference : "" } } />
                 </div>
 
                 {

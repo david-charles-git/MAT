@@ -12,9 +12,6 @@ import { materialDataStructure } from "../../DataStructures/material";
 import Grid from "../../Components/Grid/Grid";
 import Button from "../../Components/Button/Button";
 
-
-
-//exports
 export default function MaterialCreate(props) {
 	//properties
 	const userName = props.pageData.userName; //string
@@ -29,20 +26,10 @@ export default function MaterialCreate(props) {
 
 	//functions
     const navigate = useNavigate();
-    const handleMaterialNameChange = () => {
-        const newMaterialName = materialNameRef.current.value; //string
-
-        if (true) { //font-end validation here
-            setmaterialName(newMaterialName);
-
-        } else {
-            //validation error handler here
-        }
-    };
+    
     const handleCreateMaterial_new = () => {
         const navigationTo = "/materials/edit/?materialRef=" + materialRef; //string
-        console.log(materialRef);
-        const newMaterial = materialDataStructure; //obj
+        var newMaterial = materialDataStructure; //obj
 
         newMaterial.name = materialName;
         newMaterial.ref = materialRef;
@@ -54,7 +41,7 @@ export default function MaterialCreate(props) {
     };
     const handleCreateMaterial_fork = () => {
         const navigationTo = "/materials/fork/?materialRef=" + materialRef; //string
-        const newMaterial = materialDataStructure; //obj
+        var newMaterial = materialDataStructure; //obj
 
         newMaterial.name = materialName;
         newMaterial.ref = materialRef;
@@ -62,38 +49,46 @@ export default function MaterialCreate(props) {
         newMaterial.details.authors = [ userName ];
 
 		axios.post("http://localhost:5000/materials/add", newMaterial)
-			.then((res) => { console.log("Material Created - fork"); });
-        
-        navigate(navigationTo);
+			.then((res) => { console.log("Material Created - fork"); navigate(navigationTo);; });
+    };
+    const handleMaterialNameChange = () => {
+        const newMaterialName = materialNameRef.current.value; //string
+
+        if (true) { //font-end validation here
+            setmaterialName(newMaterialName);
+
+        } else {
+            //validation error handler here
+        }
     };
 
 	//Effects
-        //create Material Ref
-        useEffect(() => {
-            const generateMaterialRef = () => {
-                const referencePartOne = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
-                const referencePartTwo = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
-                const referencePartThree = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
-                const reference = referencePartOne  + "-" + referencePartTwo  + "-" + referencePartThree; //string
-            
-                return reference;
-            };
-            const getRefExists = (reference) => {
-                axios.get("http://localhost:5000/materials/findByRef/" + reference)
-                    .then((res) => { return res.data.length > 0 ? true : false });
-            };
+    //create Material Ref
+    useEffect(() => {
+        const generateMaterialRef = () => {
+            const referencePartOne = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
+            const referencePartTwo = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
+            const referencePartThree = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); //string
+            const reference = referencePartOne  + "-" + referencePartTwo  + "-" + referencePartThree; //string
+        
+            return reference;
+        };
+        const getRefExists = (reference) => {
+            axios.get("http://localhost:5000/materials/findByRef/" + reference)
+                .then((res) => { return res.data.length > 0 ? true : false });
+        };
 
-            var materialRef = generateMaterialRef(); //string
-            var refExists = getRefExists(materialRef); //bool
+        var materialRef = generateMaterialRef(); //string
+        var refExists = getRefExists(materialRef); //bool
 
-            while (refExists) {
-                materialRef = generateMaterialRef();
-                refExists = getRefExists(materialRef);
-            }
+        while (refExists) {
+            materialRef = generateMaterialRef();
+            refExists = getRefExists(materialRef);
+        }
 
-            setMaterialRef(materialRef);
+        setMaterialRef(materialRef);
 
-        }, []);
+    }, []);
 
 	return (
 		<div className="MaterialCreate"> 

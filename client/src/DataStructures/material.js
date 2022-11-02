@@ -3,8 +3,8 @@
 	Author(s) : David Charles - AddMustard
 */
 
-import { toolDataStrcuture } from "./tool"; 
-import { processDataStrcuture } from "./process";
+import { coverImageDataStructure } from "./coverImage";
+import { detailsDataStructure } from "./details";
 import { ingredientsDataStructure } from "./ingredients";
 import { methodsDataStructure } from "./methods";
 import { physicalPropertiesDataStructure } from "./physicalProperties";
@@ -16,19 +16,6 @@ import { opticalPropertiesDataStructure } from "./opticalProperties";
 import { barrierPropertiesDataStructure } from "./barrierProperties";
 import { galleryDataStructure } from "./gallery";
 
-export const materialCoverImageDataStructure = { //obj
-    source : ""
-};
-export const materialDetailsDataStructure = { //obj
-    description : "",
-    authors : [ "" ],
-    license : "",
-    sources : [ { name : "", source : "" } ],
-    difficulty : 0,
-    prepTime : 0,
-    tools : [ toolDataStrcuture ],
-    processes : [ processDataStrcuture ],
-};
 export const materialDataStructure = { //obj
     name : "",
     ref : "",
@@ -36,8 +23,8 @@ export const materialDataStructure = { //obj
     creatorUserName : "",
     published : false,
 
-    coverImage : materialCoverImageDataStructure,
-    details : materialDetailsDataStructure,
+    coverImage : coverImageDataStructure,
+    details : detailsDataStructure,
     ingredients : ingredientsDataStructure,
     methods : methodsDataStructure,
     physicalProperties : physicalPropertiesDataStructure,

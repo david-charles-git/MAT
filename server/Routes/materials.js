@@ -119,7 +119,8 @@ router.route("/update/:ref").post((req, res) => {
     const gallery = req.body.gallery; //obj
 
     const query = { ref : req.params.ref }; //obj
-    const newMaterial = { //any
+    const options = { new : true }; //obj
+    const newMaterial = { //obj
         name : name,
         ref : ref,
         forkedFromRef : forkedFromRef,
@@ -139,8 +140,12 @@ router.route("/update/:ref").post((req, res) => {
         barrierProperties : barrierProperties,
         gallery : gallery
     };
+    
+    const callback = (error, data) => {}
 
-    Material.findOneAndUpdate(query, newMaterial, (error, data) => {});
+    Material.findOneAndUpdate(query, newMaterial, options, callback);
+
+    return res.json();
 });
 
 //Delete material by ref

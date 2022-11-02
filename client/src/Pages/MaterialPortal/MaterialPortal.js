@@ -13,7 +13,6 @@ import ImageContainer from "../../Components/ImageContainer/ImageContainer";
 import Grid from "../../Components/Grid/Grid";
 import Button from "../../Components/Button/Button";
 
-//exports
 export default function MaterialPortal(props) {
 	//properties
 	const userName = props.pageData.userName; //string
@@ -30,10 +29,7 @@ export default function MaterialPortal(props) {
 	//get user contributions
 	useEffect(() => {
 		axios.get("http://localhost:5000/materials/findByCreatorUserName/" + userName)
-			.then((res) => {
-				setContributions(res.data);
-
-			})
+			.then((res) => { setContributions(res.data); })
 	}, [userName]);
 
 	//get user names
@@ -46,7 +42,6 @@ export default function MaterialPortal(props) {
 					setFirstName(resData.firstName);
 					setLastName(resData.lastName);
 				}
-
 			})
 	}, [userName]);
 
@@ -84,15 +79,7 @@ export default function MaterialPortal(props) {
 
 														<p>{ contribution.ref }</p>
 
-														<p>
-															{
-																contribution.details.authors.map((author, key_2) => {
-																	return (
-																		<span key={ key_2 }>{ author }</span>
-																	)
-																})
-															}
-														</p>
+														<p>{ contribution.details.authors.map((author, key_2) => { return <span key={ key_2 }>{ author }</span> }) }</p>
 													</Link>
 												</div>
 											)

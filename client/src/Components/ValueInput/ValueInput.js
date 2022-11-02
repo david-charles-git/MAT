@@ -3,34 +3,32 @@
 	Author(s) : David Charles - AddMustard
 */
 
-//imports
 import { useState } from "react";
 import NumberInput from "../NumberInput/NumberInput";
 import OptionInput from "../OptionInput/OptionInput";
 import TextInput from "../TextInput/TextInput";
 import './ValueInput.scss';
 
-//exports
 export default function ValueInput(props) {
     //properties
     const valueIndex = props.componentData.index; //number
     const valueType = props.componentData.type; //sting
-    const valueOptions = props.componentData.options ? props.componentData.options : []; //Array<obj> 
-    const valueItems = props.componentData.items ? props.componentData.items : []; //Array<obj>
+    const valueOptions = props.componentData.options; //Array<obj> 
+    const valueItems = props.componentData.items; //Array<obj>
     const valueItem = props.componentData.item; //obj
     const updateValue = props.componentData.updateValue; //any
 
     //states
-    var [item, setItem] = useState(valueItem);
+    var [item, setItem] = useState(valueItem); //obj
 
     //functions
     const handleUpdateSelectedOption = () => {
 
     };
     const handleUpdateTextValue = (newItem) => {
-        if (newItem.value) {
-            var item = newItem;
-            var newitems = valueItems.length > 0 ? valueItems : [];
+        if (Object.keys(newItem).length > 0) {
+            var item = newItem; //obj
+            var newitems = valueItems; //Array<obj>
 
             if (newitems[valueIndex]) {
                 newitems[valueIndex] = item;
@@ -56,9 +54,9 @@ export default function ValueInput(props) {
 
     };
     const handleUpdateNumberValue = (newItem) => {
-        if (newItem.value) {
-            var item = newItem;
-            var newitems = valueItems.length > 0 ? valueItems : [];
+        if (Object.keys(newItem).length > 0) {
+            var item = newItem; //obj
+            var newitems = valueItems; //Array<obj>
 
             if (newitems[valueIndex]) {
                 newitems[valueIndex] = item;

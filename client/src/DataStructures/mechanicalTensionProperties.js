@@ -198,7 +198,7 @@ export const mechanicalTensionPropertiesDataStructure = { //obj
             value : "tensileStrengthUltimate",
             description : "a description",
             type : "number",
-            allowMultipleItems : false,
+            allowMultipleItems : true,
             options : [],
             units : [
                 {
@@ -227,7 +227,7 @@ export const mechanicalTensionPropertiesDataStructure = { //obj
             value : "yieldStrength",
             description : "a description",
             type : "number",
-            allowMultipleItems : false,
+            allowMultipleItems : true,
             options : [],
             units : [
                 {
@@ -256,7 +256,7 @@ export const mechanicalTensionPropertiesDataStructure = { //obj
             value : "youngsModulus",
             description : "a description",
             type : "number",
-            allowMultipleItems : false,
+            allowMultipleItems : true,
             options : [],
             units : [
                 {
@@ -291,7 +291,7 @@ export const mechanicalTensionPropertiesDataStructure = { //obj
             value : "elongationAtBreak",
             description : "a description",
             type : "number",
-            allowMultipleItems : false,
+            allowMultipleItems : true,
             options : [],
             units : [
                 {
@@ -320,7 +320,7 @@ export const mechanicalTensionPropertiesDataStructure = { //obj
             value : "elongationAtYield",
             description : "a description",
             type : "number",
-            allowMultipleItems : false,
+            allowMultipleItems : true,
             options : [],
             units : [
                 {

@@ -1,11 +1,8 @@
-.App {
-
-    main {
-        width: 90%;
-        max-width: 1200px;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-gap: 20px;
-        padding: 20px 0;
-    }
+main {
+    width: 90%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    padding: 20px 0;
 }
